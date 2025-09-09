@@ -1,509 +1,736 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio - Aravind</title>
-     <!-- CORRECT TAILWIND IMPORTS -->
-  <script src="https://cdn.tailwindcss.com"></script> <!-- Main Tailwind CSS -->
-  <script>
-
-    // CORRECT CONFIG SYNTAX
-    tailwind.config = {
-      content: ['./*.html'], // Mandatory for tree-shaking
-      theme: {
-        extend: { // Must use extend to preserve defaults
-          gridTemplateColumns: {
-            'auto': 'repeat(auto-fit, minmax(200px, 1fr))'
-          },
-          fontFamily: {
-            Outfit: ["Outfit", "sans-serif"],
-            Ovo: ["Ovo", "serif"]
-          },
-          animation: {
-            spin_slow: 'spin 6s linear infinite'
-          },
-          colors: {
-            lightHover: '#fcf4ff',
-            darkHover: '#2a004a', 
-            darkTheme: '#12071F',
-          },
-
-          // #12071F #1A0933  //
-          boxShadow: {
-            black : '4px 4px 0 #000',
-            white : '4px 4px 0 #fff',
-          }
-        }
-      },
-
-      darkMode: 'selector',
-    }
-
-  </script>
-
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ovo&display=swap" rel="stylesheet">
-      
+    
+    <script>
+        tailwind.config = {
+            content: ['./*.html'],
+            theme: {
+                extend: {
+                    gridTemplateColumns: {
+                        'auto': 'repeat(auto-fit, minmax(200px, 1fr))'
+                    },
+                    fontFamily: {
+                        Outfit: ["Outfit", "sans-serif"],
+                        Ovo: ["Ovo", "serif"]
+                    },
+                    animation: {
+                        spin_slow: 'spin 6s linear infinite',
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'fade-in-up': 'fadeInUp 1s ease-out',
+                        'fade-in-down': 'fadeInDown 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.7s ease-out',
+                        'float': 'float 8s ease-in-out infinite',
+                        'gradient': 'gradient 15s ease infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'shimmer': 'shimmer 8s infinite linear',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        fadeInUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        fadeInDown: {
+                            '0%': { transform: 'translateY(-50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        gradient: {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px theme(colors.primary.400), 0 0 10px theme(colors.primary.500)' },
+                            '100%': { boxShadow: '0 0 15px theme(colors.primary.400), 0 0 30px theme(colors.primary.500)' }
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        }
+                    },
+                    colors: {
+                        lightHover: '#fcf4ff',
+                        darkHover: '#2a004a', 
+                        darkTheme: '#0f051d',
+                        glassLight: 'rgba(255, 255, 255, 0.1)',
+                        glassDark: 'rgba(0, 0, 0, 0.1)',
+                        primary: {
+                            50: '#fdf2ff',
+                            100: '#fce8ff',
+                            200: '#f9d1ff',
+                            300: '#f3abff',
+                            400: '#ea75ff',
+                            500: '#dd40ff',
+                            600: '#c81dff',
+                            700: '#b00ce6',
+                            800: '#920dbf',
+                            900: '#78109b',
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'neon': '0 0 5px theme(colors.primary.400), 0 0 20px theme(colors.primary.500)',
+                    }
+                }
+            },
+            darkMode: 'selector',
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-gradient {
+                @apply bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400 bg-clip-text text-transparent;
+                background-size: 200% 200%;
+                animation: gradient 3s ease infinite;
+            }
+            
+            .glass-effect {
+                @apply bg-glassLight dark:bg-glassDark backdrop-blur-xl border border-white/10 dark:border-white/5 shadow-glass;
+            }
+            
+            .glass-card {
+                @apply glass-effect rounded-2xl p-6 transition-all duration-700 hover:shadow-neon;
+            }
+            
+            .card-hover {
+                @apply transition-all duration-500 hover:scale-[1.02] hover:shadow-xl;
+            }
+            
+            .skeleton {
+                @apply bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-shimmer bg-[length:200%_100%] rounded;
+            }
+            
+            .animate-float-delayed {
+                animation: float 8s ease-in-out infinite;
+                animation-delay: calc(var(--delay) * 1s);
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            @apply bg-transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            @apply bg-primary-500/30 rounded-full backdrop-blur-lg;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            @apply bg-primary-600/50;
+        }
+        
+        /* Selection color */
+        ::selection {
+            @apply bg-primary-500/30 text-white;
+        }
+        
+        /* Gradient background animation */
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+        }
+    </style>
+</head>
 
-  </head>
-  <body class="overflow-x-hidden font-Outfit leading-8 dark:bg-darkTheme dark:text-white">
-    <div class="fixed top-0 right-0 w-11/12 -z-10 translate-y-[-80%] dark:hidden">
-      <img src="./images/header-bg-color.png" alt="" class="w-full" />
+<body class="overflow-x-hidden font-Outfit leading-8 dark:bg-darkTheme dark:text-white bg-gray-50 transition-colors duration-700">
+    <!-- Animated gradient background -->
+    <div class="fixed inset-0 -z-30 opacity-20 gradient-bg"></div>
+    
+    <!-- Animated background elements -->
+    <div class="fixed inset-0 -z-20 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/10 rounded-full blur-3xl animate-float" style="--delay: 0;"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-700/10 rounded-full blur-3xl animate-float" style="--delay: 2;"></div>
+        <div class="absolute top-1/4 -left-20 w-60 h-60 bg-primary-400/10 rounded-full blur-3xl animate-float" style="--delay: 4;"></div>
+        <div class="absolute bottom-1/4 -right-20 w-60 h-60 bg-primary-600/10 rounded-full blur-3xl animate-float" style="--delay: 6;"></div>
+    </div>
+    
+    <!-- Grid pattern -->
+    <div class="fixed inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    
+    <!-- Preloader/Skeleton -->
+    <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-darkTheme transition-all duration-1000">
+        <div class="flex flex-col items-center">
+            <div class="relative">
+                <div class="w-20 h-20 border-4 border-primary-500/30 border-t-primary-600 rounded-full animate-spin"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-12 h-12 bg-primary-600/20 rounded-full animate-ping"></div>
+                </div>
+            </div>
+            <p class="mt-6 text-gray-600 dark:text-gray-300 font-Ovo animate-pulse">Crafting digital excellence...</p>
+        </div>
     </div>
 
-    <nav
-      class="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50"
-    >
-
-   <a href="#">
-  <!-- Light Mode Logo -->
-  <img 
-    src="./images/logo.png" 
-    alt="Logo" 
-    class="w-28 cursor-pointer dark:hidden"
-  >
-  
-  <!-- Dark Mode Logo -->
-  <img 
-    src="./images/logo_dark.png" 
-    alt="Logo" 
-    class="w-28 cursor-pointer hidden dark:block"
-  >
-</a>
-
-      
-      <ul
-        class="hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 bg-white shadow-sm bg-opacity-50 font-Ovo
-        dark:border dark:border-white/50 dark:bg-transparent 
-        "
-      >
-        <li><a href="#top">Home</a></li>
-        <li><a href="#about">About me</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#work">My Work</a></li>
-        <li><a href="#contact">Contact me</a></li>
-      </ul>
-
-      <div class="flex items-center gap-4">
-        <button onclick="toggleTheme()">
-          <img src="./images/moon_icon.png" alt="" class="w-6 dark:hidden" />
-            <img src="./images/sun_icon.png" alt="" class="w-6 hidden dark:block" />
-        </button>
-        <a
-          href="#contact"
-          class="hidden lg:flex items-center gap-3 px-10 py-2.5 border border-gray-500 rounded-full ml-4 font-Ovo dark:border-white/50"
-          >Contact 
-          <img src="./images/arrow-icon.png" alt="" class="w-3 dark:hidden" />
-          <img src="./images/arrow-icon-dark.png" alt="" class="w-3 hidden dark:block" />
+    <!-- Navigation -->
+    <nav class="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 glass-effect rounded-b-2xl mx-auto max-w-7xl left-1/2 transform -translate-x-1/2 mt-4 transition-all duration-500">
+        <a href="#" class="animate-fade-in-down">
+            <img src="./images/logo.png" alt="Logo" class="w-28 cursor-pointer dark:hidden transition-all duration-500 hover:scale-110" />
+            <img src="./images/logo_dark.png" alt="Logo" class="w-28 cursor-pointer hidden dark:block transition-all duration-500 hover:scale-110" />
         </a>
+        
+        <ul class="hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 glass-effect font-Ovo animate-fade-in-down">
+            <li class="group relative">
+                <a href="#top" class="relative py-2 transition-all duration-500 hover:text-primary-500">
+                    Home
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-500 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="group relative">
+                <a href="#about" class="relative py-2 transition-all duration-500 hover:text-primary-500">
+                    About me
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-500 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="group relative">
+                <a href="#services" class="relative py-2 transition-all duration-500 hover:text-primary-500">
+                    Services
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-500 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="group relative">
+                <a href="#work" class="relative py-2 transition-all duration-500 hover:text-primary-500">
+                    My Work
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-500 group-hover:w-full"></span>
+                </a>
+            </li>
+            <li class="group relative">
+                <a href="#contact" class="relative py-2 transition-all duration-500 hover:text-primary-500">
+                    Contact me
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-500 group-hover:w-full"></span>
+                </a>
+            </li>
+        </ul>
 
-        <button class="block md:hidden ml-3" onclick="openMenu()">
-          <img
-            src="./images/menu-black.png"
-            alt=""
-            class="w-6 cursor-pointer dark:hidden"
-          />
+        <div class="flex items-center gap-4 animate-fade-in-down">
+            <button onclick="toggleTheme()" class="p-2.5 rounded-full glass-effect hover:shadow-neon transition-all duration-500 group">
+                <img src="./images/moon_icon.png" alt="" class="w-6 dark:hidden transition-transform duration-700 group-hover:rotate-180" />
+                <img src="./images/sun_icon.png" alt="" class="w-6 hidden dark:block transition-transform duration-700 group-hover:rotate-180" />
+            </button>
+            <a href="#contact" class="hidden lg:flex items-center gap-3 px-10 py-2.5 glass-effect rounded-full ml-4 font-Ovo hover:shadow-neon transition-all duration-500 group">
+                Contact 
+                <img src="./images/arrow-icon.png" alt="" class="w-3 dark:hidden transition-transform duration-500 group-hover:translate-x-1" />
+                <img src="./images/arrow-icon-dark.png" alt="" class="w-3 hidden dark:block transition-transform duration-500 group-hover:translate-x-1" />
+            </a>
 
-            <img
-            src="./images/menu-white.png"
-            alt=""
-            class="w-6 cursor-pointer hidden dark:block"
-          />
-        </button>
-      </div>
-
-      <!-- Mobile menu -->
-      <ul
-        id="sidemenu"
-        class="flex md:hidden flex-col gap-4 py-20 px-10 fixed -right-64 top-0 bottom-0 w-64 z-50 h-screen bg-rose-50 transition duration-500 font-Ovo dark:bg-darkHover dark:text-white"
-      >
-        <div class="absolute right-6 top-6" onclick="closeMenu()">
-          <img
-            src="./images/close-black.png"
-            alt=""
-            class="w-5 cursor-pointer dark:hidden"
-          />
-
-          <img
-            src="./images/close-white.png"
-            alt=""
-            class="w-5 cursor-pointer hidden dark:block"
-          />
+            <button class="block md:hidden ml-3 p-2.5 rounded-full glass-effect group" onclick="openMenu()">
+                <img src="./images/menu-black.png" alt="" class="w-6 cursor-pointer dark:hidden transition-transform duration-500 group-hover:rotate-90" />
+                <img src="./images/menu-white.png" alt="" class="w-6 cursor-pointer hidden dark:block transition-transform duration-500 group-hover:rotate-90" />
+            </button>
         </div>
 
-        <li><a href="#top" onclick="closeMenu()">Home</a></li>
-        <li><a href="#about" onclick="closeMenu()">About me</a></li>
-        <li><a href="#services" onclick="closeMenu()">Services</a></li>
-        <li><a href="#work" onclick="closeMenu()">My Work</a></li>
-        <li><a href="#contact" onclick="closeMenu()">Contact me</a></li>
-      </ul>
+        <!-- Mobile menu -->
+        <ul id="sidemenu" class="flex md:hidden flex-col gap-8 py-24 px-10 fixed -right-80 top-0 bottom-0 w-80 z-50 h-screen glass-effect transition-transform duration-700 font-Ovo backdrop-blur-2xl">
+            <div class="absolute right-6 top-6 group" onclick="closeMenu()">
+                <img src="./images/close-black.png" alt="" class="w-6 cursor-pointer dark:hidden transition-transform duration-500 group-hover:rotate-90" />
+                <img src="./images/close-white.png" alt="" class="w-6 cursor-pointer hidden dark:block transition-transform duration-500 group-hover:rotate-90" />
+            </div>
+
+            <li class="group transition-all duration-500 hover:pl-5">
+                <a href="#top" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">Home</a>
+            </li>
+            <li class="group transition-all duration-500 hover:pl-5">
+                <a href="#about" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">About me</a>
+            </li>
+            <li class="group transition-all duration-500 hover:pl-5">
+                <a href="#services" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">Services</a>
+            </li>
+            <li class="group transition-all duration-500 hover:pl-5">
+                <a href="#work" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">My Work</a>
+            </li>
+            <li class="group transition-all duration-500 hover:pl-5">
+                <a href="#contact" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">Contact me</a>
+            </li>
+        </ul>
     </nav>
 
     <!-- Header Section -->
+    <section id="top" class="min-h-screen flex items-center justify-center px-4 pt-20 pb-10 relative overflow-hidden">
+        <!-- Animated circles -->
+        <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-primary-500/30 rounded-full animate-float-delayed" style="--delay: 0;"></div>
+        <div class="absolute top-1/3 right-1/4 w-6 h-6 bg-primary-600/20 rounded-full animate-float-delayed" style="--delay: 1;"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-8 h-8 bg-primary-400/20 rounded-full animate-float-delayed" style="--delay: 2;"></div>
+        <div class="absolute bottom-1/3 right-1/3 w-5 h-5 bg-primary-500/30 rounded-full animate-float-delayed" style="--delay: 3;"></div>
+        
+        <div class="w-full max-w-4xl text-center mx-auto flex flex-col items-center justify-center gap-6">
+            <div class="relative mb-4 animate-fade-in-down">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 rounded-full blur-xl opacity-30 animate-glow"></div>
+                <img src="./images/profile-img.png" alt="Profile" class="relative rounded-full w-40 border-4 border-white/20 shadow-glass z-10 transition-all duration-700 hover:scale-110" />
+            </div>
+            
+            <h3 class="flex items-center justify-center gap-2 text-xl md:text-2xl mb-3 font-Ovo animate-fade-in-up">
+                Hi I'm Aravind <img src="./images/hand-icon.png" alt="" class="w-6 animate-bounce" />
+            </h3>
+            
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-Ovo font-bold mb-4 animate-fade-in-up">
+                <span class="text-gradient">Full-stack</span> Web Developer
+            </h1>
+            
+            <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300 leading-relaxed animate-fade-in-up">
+                Crafting modern digital experiences with React, Node.js, and TailwindCSS. 
+                Specializing in responsive web applications that blend front-end elegance 
+                with back-end robustness, transforming ideas into high-performance solutions.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center gap-4 mt-8 animate-scale-in">
+                <a href="#contact" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-primary-400 text-white flex items-center gap-2 shadow-lg hover:shadow-neon transition-all duration-500 hover:gap-3 group">
+                    contact me
+                    <img src="./images/right-arrow-white.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-x-1" />
+                </a>
 
-    <div
-      class="w-11/12 max-w-3xl tex t-center mx-auto h-screen flex flex-col items-center justify-center gap-4"
-    >
-      <img src="./images/profile-img.png" alt="" class="rounded-full w-32" />
-      <h3 class="flex items-end gap-2 text-xl md:text-2xl mb-3 font-Ovo">
-        Hi I'm Aravind <img src="./images/hand-icon.png" alt="" class="w-6" />
-      </h3>
-      <h1 class="text-3xl sm:text-6xl lg:text-[66px] font-Ovo">
-      Full-stack Web Developer
-      </h1>
-      <p class="max-w-2xl mx-auto">
-         Crafting modern digital experiences with React, Node.js, and TailwindCSS. 
-  Specializing in responsive web applications that blend front-end elegance 
-  with back-end robustness, transforming ideas into high-performance solutions.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center gap-4 mt-4">
-        <a
-          href="#contact"
-          class="px-10 py-3 border rounded-full bg-gradient-to-r from-[#b820e6] to-[#da7d20] text-white flex items-center gap-2 dark:border-transparent hover:bg-gradient-to-r hover:from-[#da7d20] hover:to-[#b820e6]"
-          >contact me
-          <img src="./images/right-arrow-white.png" alt="" class="w-4"
-        /></a>
-
-
-        <a
-          href="./Aravind-Updated-Resume.pdf"
-          download
-          class="px-10 py-3 border rounded-full border-gray-500 flex items-center gap-2 bg-white dark:text-black hover:"
-          >my resume <img src="./images/download-icon.png" alt="" class="w-4"
-        /></a>
-      </div>
-    </div>
+                <a href="./Aravind-Updated-Resume.pdf" download class="px-8 py-3.5 rounded-full glass-effect flex items-center gap-2 hover:shadow-neon transition-all duration-500 group">
+                    my resume <img src="./images/download-icon.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-y-1" />
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- About Me Section -->
+    <section id="about" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">Introduction</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">About me</h2>
+            </div>
 
-    <div id="about" class="w-full px-[12%] py-10 scroll-mt-20">
-      <h4 class="text-center mb-2 text-lg font-Ovof">Introduction</h4>
-      <h2 class="text-center text-5xl font-Ovo">About me</h2>
+            <div class="flex w-full flex-col lg:flex-row items-center gap-16 my-16">
+                <div class="max-w-max mx-auto relative animate-float">
+                    <div class="absolute inset-0 bg-primary-500/20 rounded-3xl blur-xl -z-10"></div>
+                    <img src="./images/user-image.png" alt="" class="w-64 sm:w-80 rounded-3xl max-w-none shadow-glass transition-all duration-700 hover:rotate-3" />
 
-      <div class="flex w-full flex-col lg:flex-row items-center gap-20 my-20">
-        <div class="max-w-max mx-auto relative">
-          <img
-            src="./images/user-image.png"
-            alt=""
-            class="w-64 sm:w-80 rounded-3xl max-w-none"
-          />
+                    <div class="glass-effect w-1/2 aspect-square absolute right-0 bottom-0 rounded-full translate-x-1/4 translate-y-1/3 shadow-lg flex items-center justify-center">
+                        <img src="./images/circular-text.png" alt="" class="w-full animate-spin_slow" />
+                        <img src="./images/dev-icon.png" alt="" class="w-1/4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                    </div>
+                </div>
+                
+                <div class="flex-1">
+                    <p class="mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-300 leading-relaxed animate-fade-in-up">
+                        I'm passionate about Fullstack Web Development with expertise in
+                        building responsive and user-friendly web applications using the
+                        MERN stack. With hands-on experience from real-world projects and
+                        internships, I specialize in React.js, Tailwind CSS, and modern
+                        JavaScript.
+                    </p>
 
-          <div
-            class="bg-white w-1/2 aspect-square absolute right-0 bottom-0 rounded-full translate-x-1/4 translate-y-1/3 shadow-[0_4px_55px_rgba(149,0,162,0.15)] flex items-center justify-center"
-          >
-            <img src="./images/circular-text.png" alt="" class="w-full animate-spin_slow" />
-            <img
-              src="./images/dev-icon.png"
-              alt=""
-              class="w-1/4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            />
-          </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mb-12">
+                        <div class="glass-card animate-fade-in-up" style="animation-delay: 0.1s">
+                            <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
+                                <img src="./images/code-icon.png" alt="" class="w-7 dark:hidden" />
+                                <img src="./images/code-icon-dark.png" alt="" class="w-7 hidden dark:block" />
+                            </div>
+                            <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Languages</h3>
+                            <p class="text-gray-600 text-sm dark:text-white/80">
+                                HTML, CSS, JavaScript, React Js, TailwindCSS, Python, Node Js, Mongodb , Express Js, Stripe, Clerk
+                            </p>
+                        </div>
+                        
+                        <div class="glass-card animate-fade-in-up" style="animation-delay: 0.2s">
+                            <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
+                                <img src="./images/edu-icon.png" alt="" class="w-7 dark:hidden" />
+                                <img src="./images/edu-icon-dark.png" alt="" class="w-7 hidden dark:block" />
+                            </div>
+                            <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Education</h3>
+                            <p class="text-gray-600 text-sm dark:text-white/80">
+                                Master of Computer Applications(2023-2025) <br />
+                                Bachelor of Computer Applications(2020-2023)
+                            </p>
+                        </div>
+                        
+                        <div class="glass-card animate-fade-in-up" style="animation-delay: 0.3s">
+                            <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
+                                <img src="./images/project-icon.png" alt="" class="w-7 dark:hidden" />
+                                <img src="./images/project-icon-dark.png" alt="" class="w-7 hidden dark:block" />
+                            </div>
+                            <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Projects</h3>
+                            <p class="text-gray-600 text-sm dark:text-white/80">Built more than 5+ projects</p>
+                        </div>
+                    </div>
+                    
+                    <h4 class="my-6 text-gray-700 dark:text-white/80 font-Ovo text-lg animate-fade-in-up">Tools I use</h4>
+
+                    <ul class="flex items-center gap-4 flex-wrap animate-fade-in-up">
+                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                            <img src="./images/vscode.png" alt="VSCode" class="w-5 sm:w-7" />
+                        </li>
+                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                            <img src="./images/firebase.png" alt="Firebase" class="w-5 sm:w-7" />
+                        </li>
+                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                            <img src="./images/mongodb.png" alt="MongoDB" class="w-5 sm:w-7" />
+                        </li>
+                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                            <img src="./images/git.png" alt="Git" class="w-5 sm:w-7" />
+                        </li>
+                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                            <img src="./images/Tailwind CSS.png" alt="Tailwind CSS" class="w-5 sm:w-7" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="flex-1">
-          <p class="mb-10 max-w-2xl">
-            I’m passionate about Fullstack Web Development with expertise in
-            building responsive and user-friendly web applications using the
-            MERN stack. With hands-on experience from real-world projects and
-            internships, I specialize in React.js, Tailwind CSS, and modern
-            JavaScript.
-          </p>
+    </section>
 
-          <ul class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl">
-            <li
-              class="border-[0.5px] border-gray-400 rounded-xl p-6 cursor-pointer hover:bg-lightHover hover:-translate-y-1 duration-500 hover:shadow-black dark:border-white dark:hover:shadow-white dark:hover:bg-darkHover/50"
-            >
-              <img src="./images/code-icon.png" alt="" class="w-7 mt-3 dark:hidden" />
-              <img src="./images/code-icon-dark.png" alt="" class="w-7 mt-3 hidden dark:block" />
-              <h3 class="my-4 font-semibold text-gray-700 dark:text-white">
-                Languages</h3>
-              <p class="text-gray-600 text-sm dark:text-white/80">
-                HTML, CSS, JavaScript, React Js, TailwindCSS, Python, Node Js, Mongodb , Express Js, Stripe, Clerk
-              </p>
-            </li>
-            <li
-              class="border-[0.5px] border-gray-400 rounded-xl p-6 cursor-pointer hover:bg-lightHover hover:-translate-y-1 duration-500 hover:shadow-black dark:border-white dark:hover:shadow-white dark:hover:bg-darkHover/50"
-            >
-              <img src="./images/edu-icon.png" alt="" class="w-7 mt-3 dark:hidden" />
-              <img src="./images/edu-icon-dark.png" alt="" class="w-7 mt-3 hidden dark:block" />
-              <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Education</h3>
-              <p class="text-gray-600 text-sm dark:text-white/80">
-                Master of Computer Applications(2023-2025) <br />
-                Bachelor of Computer Applications(2020-2023)
-              </p>
-            </li>
-            <li
-              class="border-[0.5px] border-gray-400 rounded-xl p-6 cursor-pointer hover:bg-lightHover hover:-translate-y-1 duration-500 hover:shadow-black dark:border-white dark:hover:shadow-white dark:hover:bg-darkHover/50"
-            >
-              <img src="./images/project-icon.png" alt="" class="w-7 mt-3 dark:hidden" />
-              <img src="./images/project-icon-dark.png" alt="" class="w-7 mt-3 hidden dark:block" />
-              <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Projects</h3>
-              <p class="text-gray-600 text-sm dark:text-white/80">Built more than 3 projects</p>
-            </li>
-          </ul>
-          <h4 class="my-6 text-gray-700 dark:text-white/80 font-Ovo">Tools i use</h4>
+    <!-- Services Section -->
+    <section id="services" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 bg-white/30 dark:bg-darkTheme/30 backdrop-blur-sm relative">
+        <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-500/5 to-primary-700/5"></div>
+        
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">What I offer</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">My services</h2>
+                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300 animate-fade-in-down">
+                    I'm passionate about Fullstack Web Development with expertise in building
+                    responsive and user-friendly web applications using the MERN stack. With
+                    hands-on experience from real-world projects and internships, I
+                    specialize in React.js, Tailwind CSS, and modern JavaScript.
+                </p>
+            </div>
 
-          <ul class="flex items-center gap-3 sm:gap-5">
-            <li
-              class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500"
-            >
-              <img src="./images/vscode.png" alt="" class="w-5 sm:w-7" />
-            </li>
-            <li
-              class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500"
-            >
-              <img src="./images/firebase.png" alt="" class="w-5 sm:w-7" />
-            </li>
-            <li
-              class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500"
-            >
-              <img src="./images/mongodb.png" alt="" class="w-5 sm:w-7" />
-            </li>
-            <li
-              class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500"
-            >
-              <img src="./images/git.png" alt="" class="w-5 sm:w-7" />
-            </li>
-            <li
-              class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500"
-            >
-              <img src="./images/Tailwind CSS.png" alt="" class="w-5 sm:w-7" />
-            </li>
-          </ul>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-10">
+                <div class="glass-card animate-scale-in" style="animation-delay: 0.1s">
+                    <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
+                        <img src="./images/web-icon.png" alt="Web Design" class="w-8" />
+                    </div>
+                    <h3 class="text-xl my-4 text-gray-700 dark:text-white font-Ovo">Web Design</h3>
+                    <p class="text-gray-600 leading-6 dark:text-white/80">
+                        Web development is the process of creating websites and web
+                        applications.
+                    </p>
+                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-6 group-hover:gap-3 transition-all duration-500">
+                        Read more <img src="./images/right-arrow.png" alt="" class="w-4 group-hover:translate-x-1 transition-transform duration-500" />
+                    </a>
+                </div>
+                
+                <div class="glass-card animate-scale-in" style="animation-delay: 0.2s">
+                    <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
+                        <img src="./images/ui-icon.png" alt="UI/UX Design" class="w-8" />
+                    </div>
+                    <h3 class="text-xl my-4 text-gray-700 dark:text-white font-Ovo">UI/UX design</h3>
+                    <p class="text-gray-600 leading-6 dark:text-white/80">
+                        Designing intuitive digital experiences by prioritizing user needs and easy to use
+                    </p>
+                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-6 group-hover:gap-3 transition-all duration-500">
+                        Read more <img src="./images/right-arrow.png" alt="" class="w-4 group-hover:translate-x-1 transition-transform duration-500" />
+                    </a>
+                </div>
+                
+                <div class="glass-card animate-scale-in" style="animation-delay: 0.3s">
+                    <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
+                        <img src="./images/graphics-icon.png" alt="Graphics Design" class="w-8" />
+                    </div>
+                    <h3 class="text-xl my-4 text-gray-700 dark:text-white font-Ovo">Graphics Design</h3>
+                    <p class="text-gray-600 leading-6 dark:text-white/80">
+                        Creating visual content like logos, banners, and illustrations to communicate ideas. 
+                    </p>
+                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-6 group-hover:gap-3 transition-all duration-500">
+                        Read more <img src="./images/right-arrow.png" alt="" class="w-4 group-hover:translate-x-1 transition-transform duration-500" />
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+    </section>
 
-<!-- Services Section -->
+    <!-- My Work Section -->
+    <section id="work" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">My Portfolio</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">My latest work</h2>
+                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300 animate-fade-in-down">
+                    I'm passionate about Fullstack Web Development with expertise in building
+                    responsive and user-friendly web applications using the MERN stack. With
+                    hands-on experience from real-world projects and internships, I
+                    specialize in React.js, Tailwind CSS, and modern JavaScript.
+                </p>
+            </div>
 
-    <div id="services" class="w-full px-[12%] py-10 scroll-mt-20">
-      <h4 class="text-center mb-2 text-lg font-Ovo">What i offer</h4>
-      <h2 class="text-center text-5xl font-Ovo">My services</h2>
-      <p class="text-center max-w-2xl mx-auto mt-5 mb-12">
-        I’m passionate about Fullstack Web Development with expertise in building
-        responsive and user-friendly web applications using the MERN stack. With
-        hands-on experience from real-world projects and internships, I
-        specialize in React.js, Tailwind CSS, and modern JavaScript.
-      </p>
-
-      <div class="grid grid-cols-auto gap-6 my-10">
-        <div
-          class="border border-gray-400 rounded-lg px-8 py-12 hover:shadow-black cursor-pointer hover:bg-lightHover hover:-translate-y-1 duration-500 dark:hover:bg-darkHover dark:hover:shadow-white"
-        >
-          <img src="./images/web-icon.png" alt="" class="w-10" />
-          <h3 class="text-lg my-4 text-gray-700 dark:text-white">Web Design</h3>
-          <p class="text-sm text-gray-600 leading-5 dark:text-white/80">
-            Web development is the process of creating websites and web
-            applications.
-          </p>
-          <a href="" class="flex items-center gap-2 text-sm mt-5"
-            >Read more <img src="./images/right-arrow.png" alt="" class="w-4"
-          /></a>
-        </div>
-          <div
-          class="border border-gray-400 rounded-lg px-8 py-12 hover:shadow-black cursor-pointer hover:bg-lightHover hover:-translate-y-1 duration-500 dark:hover:bg-darkHover dark:hover:shadow-white"
-        >
-          <img src="./images/ui-icon.png" alt="" class="w-10" />
-          <h3 class="text-lg my-4 text-gray-700 dark:text-white">UI/ UX design</h3>
-          <p class="text-sm text-gray-600 leading-5 dark:text-white/80">
-          Designing intuitive digital experiences by prioritizing user needs and easy to use
-          </p>
-          <a href="" class="flex items-center gap-2 text-sm mt-5"
-            >Read more <img src="./images/right-arrow.png" alt="" class="w-4"
-          /></a>
-        </div>
-          <div
-          class="border border-gray-400 rounded-lg px-8 py-12 hover:shadow-black cursor-pointer hover:bg-lightHover hover:-translate-y-1 duration-500 dark:hover:bg-darkHover dark:hover:shadow-white"
-        >
-          <img src="./images/graphics-icon.png" alt="" class="w-10" />
-          <h3 class="text-lg my-4 text-gray-700 dark:text-white">Graphics Design</h3>
-          <p class="text-sm text-gray-600 leading-5 dark:text-white/80">
-          Creating visual content like logos, banners, and illustrations to communicate ideas. 
-          </p>
-          <a href="" class="flex items-center gap-2 text-sm mt-5"
-            >Read more <img src="./images/right-arrow.png" alt="" class="w-4"
-          /></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- my work Section -->
-
-    <div id="work" class="w-full px-[12%] py-10 scroll-mt-20">
-      <h4 class="text-center mb-2 text-lg font-Ovo">My Portfolio</h4>
-      <h2 class="text-center text-5xl font-Ovo">My latest work</h2>
-      <p class="text-center max-w-2xl mx-auto mt-5 mb-12">
-        I’m passionate about Fullstack Web Development with expertise in building
-        responsive and user-friendly web applications using the MERN stack. With
-        hands-on experience from real-world projects and internships, I
-        specialize in React.js, Tailwind CSS, and modern JavaScript.
-      </p>
-
-      <div class="grid grid-cols-auto my-10 gap-5">
-         <div class="aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group">
-          <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-            <div>
-              <h2 class="font-semibold font-Ovo dark:text-black"> 
-                <a href="https://genora-ai-phi.vercel.app/" target="_blank">AI SaaS Application</a></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+                <div class="aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.1s">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                            <div>
+                                <h2 class="font-semibold font-Ovo text-white"> 
+                                    <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">AI SaaS Application</a>
+                                </h2>
+                            </div>
+                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="aspect-square bg-[url('./images/work-1.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.2s">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                            <div>
+                                <h2 class="font-semibold font-Ovo text-white">
+                                    <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">E-Commerce Website</a>
+                                </h2>
+                            </div>
+                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                                <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" rel="noopener noreferrer">
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.3s">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                            <div>
+                                <h2 class="font-semibold font-Ovo text-white"> 
+                                    <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="hover:text-primary-400 transition-colors">Food Delivery Website</a>
+                                </h2>
+                            </div>
+                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" rel="noopener noreferrer">
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.4s">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                            <div>
+                                <h2 class="font-semibold font-Ovo text-white">
+                                    <a href="https://lms-project-self.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">LMS Website</a>
+                                </h2>
+                            </div>
+                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                                <a href="https://lms-project-self.vercel.app/" target="_blank" rel="noopener noreferrer">
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
+            <div class="text-center mt-16">
+                <a href="#" class="inline-flex items-center justify-center gap-2 text-gray-700 glass-effect rounded-full py-3 px-10 hover:shadow-neon transition-all duration-500 group dark:text-white animate-fade-in-up">
+                    Show more
+                    <img src="./images/right-arrow-bold.png" alt="" class="w-4 dark:hidden transition-transform duration-500 group-hover:translate-x-1" />
+                    <img src="./images/right-arrow-bold-dark.png" alt="" class="w-4 hidden dark:block transition-transform duration-500 group-hover:translate-x-1" />
+                </a>
             </div>
-            <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-              <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-              </a>
-
-            </div>
-          </div>
         </div>
-        <div class="aspect-square bg-[url('./images/work-1.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group">
-          <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-            <div>
-              <h2 class="font-semibold font-Ovo dark:text-black">
-                <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank">E-Commerce Website</a></h2>
-             
-            </div>
-            <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-              <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" rel="noopener noreferrer">
-                <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-              </a>
-            </div>
-          </div>
-        </div>
-         <div class="aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group">
-          <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-            <div>
-              <h2 class="font-semibold font-Ovo dark:text-black"> 
-                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank">Food Delivery Website</a></h2>
-            
-            </div>
-            <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-               <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" rel="noopener noreferrer">
-                <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-              </a>
-              
-            </div>
-          </div>
-        </div>
-         <div class="aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group">
-          <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-            <div>
-              <h2 class="font-semibold font-Ovo dark:text-black">
-                <a href="https://lms-project-self.vercel.app/" target="_blank">LMS Website</a></h2>
-      
-            </div>
-            <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-               <a href="https://lms-project-self.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a href="#" class="w-max flex items-center justify-center gap-2 text-gray-700 border-[0.5px] border-gray-700 rounded-full py-3 px-10 mx-auto my-20 hover:bg-lightHover duration-500 dark:text-white dark:border-white dark:hover:bg-darkHover">
-        Show more
-        <img src="./images/right-arrow-bold.png" alt="" class="w-4 dark:hidden" />
-        <img src="./images/right-arrow-bold-dark.png" alt="" class="w-4 hidden dark:block" />
-      </a>
-   
-    </div>
+    </section>
 
     <!-- Contact me Section -->
+    <section id="contact" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
+        <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-500/10 to-primary-700/10"></div>
+        
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-16">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">Connect with me</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">Get in touch</h2>
+                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300 animate-fade-in-down">
+                    I'd love to hear from you! If you have any questions, comments or feedback, please use the form below to get in touch.
+                </p>
+            </div>
 
-    <div id="contact" class="w-full px-[12%] py-10 scroll-mt-20 bg-[url('./images/footer-bg-color.png')] bg-no-repeat bg-[length:90%_auto] bg-center dark:bg-none
-    ">
-      <h4 class="text-center mb-2 text-lg font-Ovo">Connect with me</h4>
-      <h2 class="text-center text-5xl font-Ovo">Get in touch</h2>
-      <p class="text-center max-w-2xl mx-auto mt-5 mb-12">
-        I’d love to hear from you! If you have any questions, comments or feedback, please use the form below to get in touch.
-      </p>
+            <form method="POST" action="https://api.web3forms.com/submit" class="glass-effect rounded-2xl p-8 animate-scale-in">
+                <input type="hidden" name="access_key" value="5d71368d-2672-4f5c-91e1-dbb7cc66c8b3">
 
-      <form method="POST" action="https://api.web3forms.com/submit" class="max-w-2xl mx-auto ">
-        <input type="hidden" name="access_key" value="5d71368d-2672-4f5c-91e1-dbb7cc66c8b3">
-
-        <div class="grid grid-cols-auto gap-6 mt-10 mb-8">
-          <input type="text" placeholder="Enter your name" class="flex-1 p-3 outline-none border-[0.5px] border-gray-400 rounded-md bg-white dark:bg-darkHover/30 dark:border-white/90" required name="name">
-          <input type="email" placeholder="Enter your email" class="flex-1 p-3 outline-none border-[0.5px] border-gray-400 rounded-md bg-white dark:bg-darkHover/30 dark:border-white/90" required name="email">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <input type="text" placeholder="Enter your name" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="name">
+                    </div>
+                    <div>
+                        <input type="email" placeholder="Enter your email" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="email">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <textarea rows="6" placeholder="Enter your message" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="message"></textarea>
+                </div>
+                
+                <button class="py-3.5 px-10 w-full md:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-primary-600 to-primary-400 text-white rounded-full mx-auto hover:shadow-neon transition-all duration-500 group">
+                    Submit now
+                    <img src="./images/right-arrow-white.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-x-1" />
+                </button>
+            </form>
         </div>
-        <textarea rows="6" placeholder="Enter your message" class="w-full p-4 outline-none border-[0.5px] border-gray-400 rounded-md bg-white mb-6 dark:bg-darkHover/30 dark:border-white/90" required name="message">
-        </textarea>
-        <button class="py-3 px-8 w-max flex items-center justify-between gap-2 bg-black/80 text-white rounded-full mx-auto hover:bg-black duration-500 dark:bg-transparent dark:border-[0.5px] dark:hover:bg-darkHover ">
-          Submit now
-          <img src="./images/right-arrow-white.png" alt="" class="w-4" />
-        </button>
-      </form>
-    </div>
+    </section>
 
-<!-- Footer Section -->
-<footer class="pt-16 pb-8 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto">
-    <!-- Main Content -->
-    <div class="text-center mb-12">
-      <!-- Logo with hover effect -->
-      <a href="#" class="inline-block transition-transform duration-300 hover:scale-105">
-        <img src="./images/logo.png" alt="Logo" class="w-36 mx-auto dark:hidden" />
-        <img src="./images/logo_dark.png" alt="Logo" class="w-36 mx-auto hidden dark:block" />
-      </a>
+    <!-- Footer Section -->
+    <footer class="pt-16 pb-8 px-5 lg:px-[8%]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <a href="#" class="inline-block transition-transform duration-500 hover:scale-110 animate-fade-in-up">
+                    <img src="./images/logo.png" alt="Logo" class="w-36 mx-auto dark:hidden" />
+                    <img src="./images/logo_dark.png" alt="Logo" class="w-36 mx-auto hidden dark:block" />
+                </a>
 
-      <!-- Email with animated hover -->
-      <div class="mt-6 flex justify-center items-center space-x-2 group cursor-pointer">
-        <span class="relative inline-block">
-          <img src="./images/mail_icon.png" alt="" class="w-6 dark:hidden transition-opacity duration-300 group-hover:opacity-0" />
-          <img src="./images/mail_icon_dark.png" alt="" class="w-6 hidden dark:block transition-opacity duration-300 group-hover:opacity-0" />
-          <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
-            </svg>
-          </span>
-        </span>
-        <a href="mailto:aravindrajaa03@gmail.com" class="text-gray-600 dark:text-gray-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">
-          aravindrajaa03@gmail.com
-        </a>
-      </div>
-    </div>
+                <div class="mt-6 flex justify-center items-center space-x-2 group cursor-pointer animate-fade-in-up">
+                    <span class="relative inline-block">
+                        <img src="./images/mail_icon.png" alt="" class="w-6 dark:hidden transition-opacity duration-500 group-hover:opacity-0" />
+                        <img src="./images/mail_icon_dark.png" alt="" class="w-6 hidden dark:block transition-opacity duration-500 group-hover:opacity-0" />
+                        <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+                            </svg>
+                        </span>
+                    </span>
+                    <a href="mailto:aravindrajaa03@gmail.com" class="text-gray-600 dark:text-gray-300 font-medium hover:text-primary-600 transition-colors duration-500">
+                        aravindrajaa03@gmail.com
+                    </a>
+                </div>
+            </div>
 
-    <!-- Copyright & Social Links -->
-    <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
-      <div class="flex flex-col-reverse sm:flex-row items-center justify-between">
-        <!-- Copyright Text -->
-        <p class="text-gray-500 dark:text-gray-400 text-sm mt-4 sm:mt-0">
-          Copyright © 2025 Aravind Raja. All rights reserved.
-        </p>
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <div class="flex flex-col-reverse sm:flex-row items-center justify-between">
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-4 sm:mt-0 animate-fade-in-up">
+                        Copyright © 2025 Aravind Raja. All rights reserved.
+                    </p>
 
-        <!-- Social Links with animations -->
-        <ul class="flex space-x-6">
-          <li>
-            <a href="https://www.instagram.com/aravvvv._.20" target="_blank" rel="noopener noreferrer" 
-               class="social-link group">
-              <span class="sr-only">Instagram</span>
-              <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-pink-600 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/in/aravind042" target="_blank" rel="noopener noreferrer" 
-               class="social-link group">
-              <span class="sr-only">LinkedIn</span>
-              <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-blue-700 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/aravind7lee" target="_blank" rel="noopener noreferrer" 
-               class="social-link group">
-              <span class="sr-only">GitHub</span>
-              <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.113.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-              </svg>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</footer>
+                    <ul class="flex space-x-6 animate-fade-in-up">
+                        <li>
+                    <a href="https://www.instagram.com/aravvvv._.20" target="_blank" rel="noopener noreferrer" 
+                       class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/aravind042" target="_blank" rel="noopener noreferrer" 
+                       class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
+                        <span class="sr-only">LinkedIn</span>
+                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/aravind7lee" target="_blank" rel="noopener noreferrer" 
+                       class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
+                        <span class="sr-only">GitHub</span>
+                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 p-3 glass-effect rounded-full shadow-lg transition-all duration-500 opacity-0 invisible hover:shadow-neon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
     <script src="./script.js"></script>
-  </body>
+    <script>
+        // Enhanced script with animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide preloader
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('opacity-0');
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 1000);
+            }, 2000);
+            
+            // Add intersection observer for scroll animations
+            const animatedElements = document.querySelectorAll('.animate-fade-in, .animate-fade-in-up, .animate-fade-in-down, .animate-scale-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', '!transform-none');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(el => {
+                // Set initial state
+                if (el.classList.contains('animate-fade-in')) {
+                    el.classList.add('opacity-0');
+                }
+                if (el.classList.contains('animate-fade-in-up')) {
+                    el.classList.add('opacity-0', 'translate-y-10');
+                }
+                if (el.classList.contains('animate-fade-in-down')) {
+                    el.classList.add('opacity-0', '-translate-y-10');
+                }
+                if (el.classList.contains('animate-scale-in')) {
+                    el.classList.add('opacity-0', 'scale-90');
+                }
+                
+                observer.observe(el);
+            });
+            
+            // Back to top button
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
 </html>
