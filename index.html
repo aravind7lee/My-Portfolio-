@@ -39,6 +39,12 @@
                         'wave': 'wave 1.5s linear infinite',
                         'typing': 'typing 3.5s steps(40, end)',
                         'blink-caret': 'blinkCaret 0.75s step-end infinite',
+                        'cinematic-appear': 'cinematicAppear 2s ease-out forwards',
+                        'text-reveal': 'textReveal 1.5s ease-out forwards',
+                        'image-reveal': 'imageReveal 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                        'slide-up': 'slideUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                        'slide-down': 'slideDown 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                        'fade-in-delayed': 'fadeIn 1.5s ease-out 0.5s forwards',
                     },
                     keyframes: {
                         fadeIn: {
@@ -94,6 +100,62 @@
                         blinkCaret: {
                             'from, to': { borderColor: 'transparent' },
                             '50%': { borderColor: 'theme(colors.primary.500)' }
+                        },
+                        cinematicAppear: {
+                            '0%': { 
+                                opacity: '0',
+                                transform: 'scale(1.2) translateY(20px)',
+                                filter: 'blur(10px)'
+                            },
+                            '100%': { 
+                                opacity: '1',
+                                transform: 'scale(1) translateY(0)',
+                                filter: 'blur(0px)'
+                            }
+                        },
+                        textReveal: {
+                            '0%': { 
+                                clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)',
+                                transform: 'translateY(20px)',
+                                opacity: '0'
+                            },
+                            '100%': { 
+                                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                                transform: 'translateY(0)',
+                                opacity: '1'
+                            }
+                        },
+                        imageReveal: {
+                            '0%': { 
+                                clipPath: 'polygon(0 0, 0 0, 0 100%, 0% 100%)',
+                                opacity: '0',
+                                transform: 'scale(1.1)'
+                            },
+                            '100%': { 
+                                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                                opacity: '1',
+                                transform: 'scale(1)'
+                            }
+                        },
+                        slideUp: {
+                            '0%': { 
+                                transform: 'translateY(100px)',
+                                opacity: '0'
+                            },
+                            '100%': { 
+                                transform: 'translateY(0)',
+                                opacity: '1'
+                            }
+                        },
+                        slideDown: {
+                            '0%': { 
+                                transform: 'translateY(-100px)',
+                                opacity: '0'
+                            },
+                            '100%': { 
+                                transform: 'translateY(0)',
+                                opacity: '1'
+                            }
                         }
                     },
                     colors: {
@@ -147,10 +209,130 @@
             .card-hover {
                 @apply transition-all duration-500 hover:scale-[1.02] hover:shadow-xl;
             }
-            
-            .skeleton {
-                @apply bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-shimmer bg-[length:200%_100%] rounded;
-            }
+           .skeleton-base {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+  }
+  
+  .skeleton-base::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-base::after {
+      animation: none;
+    }
+  }
+  
+  /* Skeleton variants */
+  .skeleton--compact {
+    height: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .skeleton--card {
+    height: 200px;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .skeleton--detail {
+    height: 300px;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .skeleton-circle {
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .skeleton-text {
+    height: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.25rem;
+  }
+  
+  .skeleton-text:last-child {
+    margin-bottom: 0;
+    width: 80%;
+  }
+  
+  .skeleton-title {
+    height: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    width: 70%;
+  }
+  
+  .skeleton-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
+  
+  /* Visually hidden utility for accessibility */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* Enhanced shimmer animation for GPU acceleration */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+/* Skeleton grid layouts */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.skeleton-flex {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
             
             .animate-float-delayed {
                 animation: float 8s ease-in-out infinite;
@@ -161,14 +343,53 @@
                 transform-style: preserve-3d;
             }
             
-            .typing-animation {
-                overflow: hidden;
-                border-right: 3px solid theme(colors.primary.500);
-                white-space: nowrap;
-                animation: typing 3.5s steps(40, end), blinkCaret 0.75s step-end infinite;
+           .typing-animation {
+    overflow: hidden;
+    border-right: 3px solid theme(colors.primary.500);
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end) forwards, blinkCaret 0.75s step-end infinite;
+    width: 0;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blinkCaret {
+    from, to { border-color: transparent; }
+    50% { border-color: theme(colors.primary.500); }
+}
+
+            
+            .cinematic-mask {
+              mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0));
+                -webkit-mask-image: linear-gradient(to bottom, rgba极速(0,0,0,1) 50%, rgba(0,0,0,0));
             }
-        }
+            
+            .scroll-reveal {
+                opacity: 0;
+                transform: translateY(50px);
+                transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+            
+            .scroll-reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .stagger-item {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+            
+            .stagger-item.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
         
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -257,6 +478,176 @@
             --r: 0;
             animation: particle 1.5s ease-out forwards;
         }
+        
+        /* Cinematic overlay effects */
+        .cinematic-overlay {
+            background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+        }
+        
+        
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+        }
+        
+        /* Scroll reveal animations */
+        .reveal-fade {
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .reveal-fade.active {
+            opacity: 1;
+        }
+        
+        .reveal-slide-up {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .reveal-slide-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal-slide-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .reveal-slide-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .reveal-slide-right {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .reveal-slide-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Project Card Styles */
+        .project-card {
+            --tilt-max: 10deg;
+            --tilt-scale: 1.02;
+            --motion-dur-md: 240ms;
+            --motion-ease: cubic-bezier(.22,.9,.32,1);
+            perspective: 900px;
+            transform-style: preserve-3d;
+        }
+
+        .project-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform var(--motion-dur-md) var(--motion-ease);
+            transform-style: preserve-3d;
+        }
+
+        .project-card.is-flipped .project-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .project-card-front,
+        .project-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .project-card-back {
+            transform: rotateY(180deg);
+        }
+
+        .project-card-tilt {
+            transform: perspective(900px) rotateX(0) rotateY(0) translateZ(0);
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .project-card-tilt.active {
+            will-change: transform;
+        }
+
+        .project-card-expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--motion-dur-md) var(--motion-ease);
+        }
+
+        .project-card.is-expanded .project-card-expand-content {
+            max-height: 500px;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .project-card-inner,
+            .project-card-tilt,
+            .project-card-expand-content {
+                transition: none !important;
+            }
+            
+            .project-card-tilt {
+                transform: none !important;
+            }
+        }
+
+        /* Mobile expand mode */
+        @media (max-width: 767px) {
+            .project-card[data-card-mode="flip"] .project-card-inner {
+                transform: none !important;
+            }
+            
+            .project-card[data-card-mode="flip"] .project-card-back {
+                position: relative;
+                transform: none;
+                height: 0;
+                overflow: hidden;
+            }
+            
+            .project-card[data-card-mode="flip"].is-expanded .project-card-back {
+                height: auto;
+            }
+        } 
+
+            /* Fix for cinematic intro logo visibility */
+        .cinematic-logo {
+            filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+        
+        /* Ensure logo is visible in light mode */
+        @media (prefers-color-scheme: light) {
+            .cinematic-logo {
+                filter: brightness(1.5) drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+            }
+        }
     </style>
 </head>
 
@@ -288,15 +679,32 @@
         </div>
     </div>
 
+      <!-- Cinematic intro overlay - FIXED LOGO VISIBILITY -->
+    <div id="cinematic-intro" class="fixed inset-0 z-40 flex items-center justify-center bg-black transition-opacity duration-1000">
+        <div class="cinematic-overlay absolute inset-0 z-10"></div>
+        <div class="vignette z-20"></div>
+        
+        <!-- Animated logo - FIXED FOR LIGHT MODE VISIBILITY -->
+        <div class="relative z-30 opacity-0 transform scale-125" id="cinematic-logo">
+            <!-- Using a single high-contrast logo that works in both light and dark modes -->
+            <img src="./images/logo_dark.png" alt="Aravind Portfolio Logo" class="w-48 mx-auto cinematic-logo" />
+        </div>
+        
+        <!-- Animated progress bar -->
+        <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-64 h-1 bg-white/20 rounded-full z-30 overflow-hidden">
+            <div class="h-full bg-primary-500 rounded-full origin-left" id="cinematic-progress"></div>
+        </div>
+    </div>
+
     <!-- Navigation -->
-<nav class="w-full fixed top-0 left-0 z-50 glass-effect rounded-b-2xl transition-all duration-500">
+    <nav class="w-full fixed top-0 left-0 z-50 glass-effect rounded-b-2xl transition-all duration-500 opacity-0 transform -translate-y-5" id="main-nav">
         <div class="px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between mx-auto w-full">
-            <a href="#" class="animate-fade-in-down">
+            <a href="#" class="">
                 <img src="./images/logo.png" alt="Logo" class="w-28 cursor-pointer dark:hidden transition-all duration-500 hover:scale-110" />
                 <img src="./images/logo_dark.png" alt="Logo" class="w-28 cursor-pointer hidden dark:block transition-all duration-500 hover:scale-110" />
             </a>
             
-            <ul class="hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 glass-effect font-Ovo animate-fade-in-down">
+            <ul class="hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 glass-effect font-Ovo">
                 <li class="group relative">
                     <a href="#top" class="relative py-2 transition-all duration-500 hover:text-primary-500">
                         Home
@@ -329,7 +737,7 @@
                 </li>
             </ul>
 
-            <div class="flex items-center gap-4 animate-fade-in-down">
+            <div class="flex items-center gap-4">
                 <button onclick="toggleTheme()" class="p-2.5 rounded-full glass-effect hover:shadow-neon transition-all duration-500 group">
                     <img src="./images/moon_icon.png" alt="" class="w-6 dark:hidden transition-transform duration-700 group-hover:rotate-180" />
                     <img src="./images/sun_icon.png" alt="" class="w-6 hidden dark:block transition-transform duration-700 group-hover:rotate-180" />
@@ -373,8 +781,8 @@
     </nav>
 
 
-    <!-- Header Section -->
-    <section id="top" class="min-h-screen flex items-center justify-center px-4 pt-32 pb-10 relative overflow-hidden">
+          <!-- Header Section with Cinematic Intro -->
+    <section id="top" class="min-h-screen flex items-center justify-center px-4 pt-32 pb-10 relative overflow-hidden cinematic-mask">
         <!-- Animated circles -->
         <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-primary-500/30 rounded-full animate-float-delayed" style="--delay: 0;"></div>
         <div class="absolute top-1/3 right-1/4 w-6 h-6 bg-primary-600/20 rounded-full animate-float-delayed" style="--delay: 1;"></div>
@@ -382,26 +790,28 @@
         <div class="absolute bottom-1/3 right-1/3 w-5 h-5 bg-primary-500/30 rounded-full animate-float-delayed" style="--delay: 3;"></div>
         
         <div class="w-full max-w-4xl text-center mx-auto flex flex-col items-center justify-center gap-6">
-            <div class="relative mb-4 animate-fade-in-down">
-                <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 rounded-full blur-xl opacity-30 animate-glow"></div>
-                <img src="./images/profile-img.png" alt="Profile" class="relative rounded-full w-40 border-4 border-white/20 shadow-glass z-10 transition-all duration-700 hover:scale-110" />
-            </div>
+          <div class="relative mb-6 md:mb-8 opacity-0 transform scale-90" id="hero-profile">
+    <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 rounded-full blur-xl opacity-30 animate-glow"></div>
+    <div class="relative flex justify-center items-center">
+        <img src="./images/Profile1.jpg" alt="Profile" class="rounded-full w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 object-cover border-4 border-white/20 shadow-glass z-10 transition-all duration-700 hover:scale-105" />
+    </div>
+</div>
             
-            <h3 class="flex items-center justify-center gap-2 text-xl md:text-2xl mb-3 font-Ovo animate-fade-in-up">
+            <h3 class="flex items-center justify-center gap-2 text-xl md:text-2xl mb-3 font-Ovo opacity-0 transform -translate-y-5" id="hero-greeting">
                 Hi I'm Aravind <img src="./images/hand-icon.png" alt="" class="w-6 animate-wave" />
             </h3>
             
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-Ovo font-bold mb-4 animate-fade-in-up">
-                <span class="text-gradient typing-animation">Full-stack</span> Web Developer
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-Ovo font-bold mb-4 opacity-0 transform translate-y-5" id="hero-title">
+                <span class="text-gradient">Full-stack</span> Web Developer
             </h1>
             
-            <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300 leading-relaxed animate-fade-in-up">
+            <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300 leading-relaxed opacity-0 transform translate-y-5" id="hero-description">
                 Crafting modern digital experiences with React, Node.js, and TailwindCSS. 
                 Specializing in responsive web applications that blend front-end elegance 
                 with back-end robustness, transforming ideas into high-performance solutions.
             </p>
             
-            <div class="flex flex-col sm:flex-row items-center gap-4 mt-8 animate-scale-in">
+            <div class="flex flex-col sm:flex-row items-center gap-4 mt-8 opacity-0 scale-90" id="hero-buttons">
                 <a href="#contact" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-primary-400 text-white flex items-center gap-2 shadow-lg hover:shadow-neon transition-all duration-500 hover:gap-3 group">
                     contact me
                     <img src="./images/right-arrow-white.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-x-1" />
@@ -417,13 +827,13 @@
     <!-- About Me Section -->
     <section id="about" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">Introduction</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">About me</h2>
+            <div class="text-center mb-16 reveal-slide-up">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600">Introduction</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">About me</h2>
             </div>
 
             <div class="flex w-full flex-col lg:flex-row items-center gap-16 my-16">
-                <div class="max-w-max mx-auto relative animate-float">
+                <div class="max-w-max mx-auto relative reveal-scale" data-delay="0.1">
                     <div class="absolute inset-0 bg-primary-500/20 rounded-3xl blur-xl -z-10"></div>
                     <img src="./images/user-image.png" alt="" class="w-64 sm:w-80 rounded-3xl max-w-none shadow-glass transition-all duration-700 hover:rotate-3" />
 
@@ -434,7 +844,7 @@
                 </div>
                 
                 <div class="flex-1">
-                    <p class="mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-300 leading-relaxed animate-fade-in-up">
+                    <p class="mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-300 leading-relaxed reveal-fade" data-delay="0.2">
                         I'm passionate about Fullstack Web Development with expertise in
                         building responsive and user-friendly web applications using the
                         MERN stack. With hands-on experience from real-world projects and
@@ -443,7 +853,7 @@
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mb-12">
-                        <div class="glass-card animate-fade-in-up card-3d" style="animation-delay: 0.1s">
+                        <div class="glass-card card-3d reveal-slide-up" data-delay="0.3">
                             <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
                                 <img src="./images/code-icon.png" alt="" class="w-7 dark:hidden" />
                                 <img src="./images/code-icon-dark.png" alt="" class="w-7 hidden dark:block" />
@@ -454,7 +864,7 @@
                             </p>
                         </div>
                         
-                        <div class="glass-card animate-fade-in-up card-3d" style="animation-delay: 0.2s">
+                        <div class="glass-card card-3d reveal-slide-up" data-delay="0.4">
                             <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
                                 <img src="./images/edu-icon.png" alt="" class="w-7 dark:hidden" />
                                 <img src="./images/edu-icon-dark.png" alt="" class="w-7 hidden dark:block" />
@@ -466,7 +876,7 @@
                             </p>
                         </div>
                         
-                        <div class="glass-card animate-fade-in-up card-3d" style="animation-delay: 0.3s">
+                        <div class="glass-card card-3d reveal-slide-up" data-delay="0.5">
                             <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
                                 <img src="./images/project-icon.png" alt="" class="w-7 dark:hidden" />
                                 <img src="./images/project-icon-dark.png" alt="" class="w-7 hidden dark:block" />
@@ -476,9 +886,9 @@
                         </div>
                     </div>
                     
-                    <h4 class="my-6 text-gray-700 dark:text-white/80 font-Ovo text-lg animate-fade-in-up">Tools I use</h4>
+                    <h4 class="my-6 text-gray-700 dark:text-white/80 font-Ovo text-lg reveal-fade" data-delay="0.6">Tools I use</h4>
 
-                    <ul class="flex items-center gap-4 flex-wrap animate-fade-in-up">
+                    <ul class="flex items-center gap-4 flex-wrap reveal-fade" data-delay="0.7">
                         <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
                             <img src="./images/vscode.png" alt="VSCode" class="w-5 sm:w-7" />
                         </li>
@@ -505,10 +915,10 @@
         <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-500/5 to-primary-700/5"></div>
         
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">What I offer</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">My services</h2>
-                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300 animate-fade-in-down">
+            <div class="text-center mb-16 reveal-slide-down">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600">What I offer</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">My services</h2>
+                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
                     I'm passionate about Fullstack Web Development with expertise in building
                     responsive and user-friendly web applications using the MERN stack. With
                     hands-on experience from real-world projects and internships, I
@@ -517,7 +927,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-10">
-                <div class="glass-card animate-scale-in card-3d" style="animation-delay: 0.1s">
+                <div class="glass-card card-3d reveal-slide-right" data-delay="0.1">
                     <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
                         <img src="./images/web-icon.png" alt="Web Design" class="w-8" />
                     </div>
@@ -531,7 +941,7 @@
                     </a>
                 </div>
                 
-                <div class="glass-card animate-scale-in card-3d" style="animation-delay: 0.2s">
+                <div class="glass-card card-3d reveal-slide-up" data-delay="0.2">
                     <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
                         <img src="./images/ui-icon.png" alt="UI/UX Design" class="w-8" />
                     </div>
@@ -544,7 +954,7 @@
                     </a>
                 </div>
                 
-                <div class="glass-card animate-scale-in card-3d" style="animation-delay: 0.3s">
+                <div class="glass-card card-3d reveal-slide-left" data-delay="0.3">
                     <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
                         <img src="./images/graphics-icon.png" alt="Graphics Design" class="w-8" />
                     </div>
@@ -563,10 +973,10 @@
     <!-- My Work Section -->
     <section id="work" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">My Portfolio</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">My latest work</h2>
-                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300 animate-fade-in-down">
+            <div class="text-center mb-16 reveal-scale">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600">My Portfolio</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">My latest work</h2>
+                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
                     I'm passionate about Fullstack Web Development with expertise in building
                     responsive and user-friendly web applications using the MERN stack. With
                     hands-on experience from real-world projects and internships, I
@@ -574,78 +984,202 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-                <div class="aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.1s">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
-                                    <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">AI SaaS Application</a>
-                                </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10" id="projects-container">
+                <!-- Project Card 1 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-right" data-card-mode="flip" data-testid="project-card-genora-ai" data-delay="0.1">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-4.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">AI SaaS Application</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-genora-ai" aria-label="View details of AI SaaS Application">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Genora AI</h3>
+                            <p class="text-gray-300 mb-6">An AI SaaS platform providing various AI tools for content generation, image processing, and data analysis with a modern, responsive interface.</p>
+                            <div class="flex gap-4">
+                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/genora-ai" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="aspect-square bg-[url('./images/work-1.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.2s">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white">
-                                    <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">E-Commerce Website</a>
-                                </h2>
+                <!-- Project Card 2 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-left" data-card-mode="flip" data-testid="project-card-ecommerce" data-delay="0.2">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-1.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white">
+                                        <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">E-Commerce Website</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-ecommerce" aria-label="View details of E-Commerce Website">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">E-Commerce Store</h3>
+                            <p class="text-gray-300 mb-6">A full-featured e-commerce platform with product listings, shopping cart, user authentication, and payment processing integration.</p>
+                            <div class="flex gap-4">
+                                <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/ecommerce-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.3s">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
-                                    <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="hover:text-primary-400 transition-colors">Food Delivery Website</a>
-                                </h2>
+                <!-- Project Card 3 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-right" data-card-mode="flip" data-testid="project-card-food-delivery" data-delay="0.3">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-2.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-Y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="hover:text-primary-400 transition-colors">Food Delivery Website</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-food-delivery" aria-label="View details of Food Delivery Website">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Cravezy Food Delivery</h3>
+                            <p class="text-gray-300 mb-6">A food delivery service with restaurant listings, menu browsing, order tracking, and real-time delivery updates.</p>
+                            <div class="flex gap-4">
+                                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/food-delivery-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover animate-scale-in" style="animation-delay: 0.4s">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white">
-                                    <a href="https://lms-project-self.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">LMS Website</a>
-                                </h2>
+                <!-- Project Card 4 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-left" data-card-mode="flip" data-testid="project-card-lms" data-delay="0.4">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-3.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white">
+                                        <a href="https://lms-project-self.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">LMS Website</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-lms" aria-label="View details of LMS Website">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://lms-project-self.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Learning Management System</h3>
+                            <p class="text-gray-300 mb-6">A comprehensive LMS platform with course management, student progress tracking, quizzes, and interactive learning materials.</p>
+                            <div class="flex gap-4">
+                                <a href="https://lms-project-self.vercel.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/lms-platform" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project Card 5 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-right" data-card-mode="flip" data-testid="project-card-chat-app" data-delay="0.5">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-5.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://chattrix-app.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">MERN Full-Stack Chat App</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-chat-app" aria-label="View details of MERN Full-Stack Chat App">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Chattrix Chat App</h3>
+                            <p class="text-gray-300 mb-6">A real-time chat application built with the MERN stack, featuring user authentication, group chats, and file sharing capabilities.</p>
+                            <div class="flex gap-4">
+                                <a href="https://chattrix-app.vercel.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/chat-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
+                            </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project Card 6 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-left" data-card-mode="flip" data-testid="project-card-book-finder" data-delay="0.6">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-6.jpg')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://booknity.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">Booknity, Book Finder Web App</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-book-finder" aria-label="View details of Booknity, Book Finder Web App">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Booknity</h3>
+                            <p class="text-gray-300 mb-6">A book discovery platform that helps users find, review, and organize their reading lists with recommendations based on preferences.</p>
+                            <div class="flex gap-4">
+                                <a href="https://booknity.netlify.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/book-finder-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
+                            </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="text-center mt-16">
-                <a href="#" class="inline-flex items-center justify-center gap-2 text-gray-700 glass-effect rounded-full py-3 px-10 hover:shadow-neon transition-all duration-500 group dark:text-white animate-fade-in-up">
+            <div class="text-center mt-16 reveal-fade">
+                <a href="#" class="inline-flex items-center justify-center gap-2 text-gray-700 glass-effect rounded-full py-3 px-10 hover:shadow-neon transition-all duration-500 group dark:text-white">
                     Show more
                     <img src="./images/right-arrow-bold.png" alt="" class="w-4 dark:hidden transition-transform duration-500 group-hover:translate-x-1" />
                     <img src="./images/right-arrow-bold-dark.png" alt="" class="w-4 hidden dark:block transition-transform duration-500 group-hover:translate-x-1" />
@@ -659,54 +1193,56 @@
         <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-500/10 to-primary-700/10"></div>
         
         <div class="max-w-3xl mx-auto">
-            <div class="text-center mb-16">
-                <h4 class="mb-2 text-lg font-Ovo text-primary-600 animate-fade-in-down">Connect with me</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold animate-fade-in-down">Get in touch</h2>
-                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300 animate-fade-in-down">
+            <div class="text-center mb-16 reveal-slide-down">
+                <h4 class="mb-2 text-lg font-Ovo text-primary-600">Connect with me</h4>
+                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">Get in touch</h2>
+                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
                     I'd love to hear from you! If you have any questions, comments or feedback, please use the form below to get in touch.
                 </p>
             </div>
 
-            <form method="POST" action="https://api.web3forms.com/submit" class="glass-effect rounded-2xl p-8 animate-scale-in">
+            <form method="POST" action="https://api.web3forms.com/submit" class="glass-effect rounded-2xl p-8 reveal-scale">
                 <input type="hidden" name="access_key" value="5d71368d-2672-4f5c-91e1-dbb7cc66c8b3">
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
+                    <div class="reveal-slide-right" data-delay="0.1">
                         <input type="text" placeholder="Enter your name" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="name">
                     </div>
-                    <div>
+                    <div class="reveal-slide-left" data-delay="0.1">
                         <input type="email" placeholder="Enter your email" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="email">
                     </div>
                 </div>
                 
-                <div class="mb-6">
+                <div class="mb-6 reveal-fade" data-delay="0.2">
                     <textarea rows="6" placeholder="Enter your message" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="message"></textarea>
                 </div>
                 
-                <button class="py-3.5 px-10 w-full md:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-primary-600 to-primary-400 text-white rounded-full mx-auto hover:shadow-neon transition-all duration-500 group">
-                    Submit now
-                    <img src="./images/right-arrow-white.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-x-1" />
-                </button>
+                <div class="reveal-fade" data-delay="0.3">
+                    <button class="py-3.5 px-10 w-full md:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-primary-600 to-primary-400 text-white rounded-full mx-auto hover:shadow-neon transition-all duration-500 group">
+                        Submit now
+                        <img src="./images/right-arrow-white.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-x-1" />
+                    </button>
+                </div>
             </form>
         </div>
     </section>
 
-    <!-- Footer Section -->
+   <!-- Footer Section -->
     <footer class="pt-16 pb-8 px-5 lg:px-[8%]">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 reveal-fade">
                 <a href="#" class="inline-block transition-transform duration-500 hover:scale-110 animate-fade-in-up">
                     <img src="./images/logo.png" alt="Logo" class="w-36 mx-auto dark:hidden" />
                     <img src="./images/logo_dark.png" alt="Logo" class="w-36 mx-auto hidden dark:block" />
                 </a>
 
-                <div class="mt-6 flex justify-center items-center space-x-2 group cursor-pointer animate-fade-in-up">
+                <div class="mt-6 flex justify-center items-center space-x-2 group cursor-pointer">
                     <span class="relative inline-block">
                         <img src="./images/mail_icon.png" alt="" class="w-6 dark:hidden transition-opacity duration-500 group-hover:opacity-0" />
-                        <img src="./images/mail_icon_dark.png" alt="" class="w-6 hidden dark:block transition-opacity duration-500 group-hover:opacity-0" />
+                        <img src="./images/mail_icon_dark.png" alt="" class="w-6 hidden dark:block transition-opacity duration-500 group-hover:opacity极速-0" />
                         <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 极速 2-.9 2-2V6c0-1.1-.9-2-极速-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 极速h16l-8 5z"/>
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c极速0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-极速2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
                             </svg>
                         </span>
                     </span>
@@ -718,13 +1254,13 @@
 
             <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
                 <div class="flex flex-col-reverse sm:flex-row items-center justify-between">
-                    <p class="text-gray-极速 dark:text-gray-400 text-sm mt-4 sm:mt-0 animate-fade-in-up">
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-4 sm:mt-0 reveal-slide-right">
                         Copyright © 2025 Aravind Raja. All rights reserved.
                     </p>
 
-                    <ul class="flex space-x-6 animate-fade-in-up">
-                            <li>
-                    <a href="https://www.instagram.com/aravvvv._.20" target="_blank" rel="noopener noreferrer" 
+                    <ul class="flex space-x-6 reveal-slide-left">
+                        <li>
+                           <a href="https://www.instagram.com/aravvvv._.20" target="_blank" rel="noopener noreferrer" 
                        class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
                         <span class="sr-only">Instagram</span>
                         <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -756,178 +1292,13 @@
         </div>
     </footer>
 
-    <!-- Back to top button -->
-    <button id="backToTop" class="fixed bottom-8 right-8 p-3 glass-effect rounded-full shadow-lg transition-all duration-500 opacity-0 invisible hover:shadow-neon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m极速-7-7v18" />
-        </svg>
-    </button>
+<!-- Back to top button -->
+<button id="backToTop" class="fixed bottom-8 right-8 p-3 glass-effect rounded-full shadow-lg transition-all duration-500 opacity-0 invisible hover:shadow-neon">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-white" fill="none" viewBox="0 0 极速24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+</button>
 
-    <script>
-        // Theme toggle functionality
-        function toggleTheme() {
-            const html = document.documentElement;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Mobile menu functionality
-        function openMenu() {
-            document.getElementById('sidemenu').style.transform = 'translateX(-100%)';
-        }
-
-        function closeMenu() {
-            document.getElementById('sidemenu').style.transform = 'translateX(0)';
-        }
-
-        // Check for saved theme preference
-        if (localStorage.getItem('theme') === 'dark' || 
-            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-
-        // Enhanced script with animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hide preloader
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('opacity-0');
-                setTimeout(() => {
-                    document.getElementById('preloader').style.display = 'none';
-                }, 1000);
-            }, 2000);
-            
-            // Add intersection observer for scroll animations
-            const animatedElements = document.querySelectorAll('.animate-fade-in, .animate-fade-in-up, .animate-fade-in-down, .animate-scale-in');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('opacity-100', '!transform-none');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            animatedElements.forEach(el => {
-                // Set initial state
-                if (el.classList.contains('animate-fade-in')) {
-                    el.classList.add('opacity-0');
-                }
-                if (el.classList.contains('animate-fade-in-up')) {
-                    el.classList.add('opacity-0', 'translate-y-10');
-                }
-                if (el.classList.contains('animate-fade-in-down')) {
-                    el.classList.add('opacity-0', '-translate-y-10');
-                }
-                if (el.classList.contains('animate-scale-in')) {
-                    el.classList.add('opacity-0', 'scale-90');
-                }
-                
-                observer.observe(el);
-            });
-            
-            // Back to top button
-            const backToTopButton = document.getElementById('backToTop');
-            
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.remove('opacity-0', 'invisible');
-                    backToTopButton.classList.add('opacity-100', 'visible');
-                } else {
-                    backToTopButton.classList.remove('opacity-100', 'visible');
-                    backToTopButton.classList.add('opacity-0', 'invisible');
-                }
-            });
-            
-            backToTopButton.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-            
-            // Parallax effect for elements with class 'parallax-element'
-            document.addEventListener('mousemove', (e) => {
-                const parallaxElements = document.querySelectorAll('.parallax-element');
-                const x = (window.innerWidth - e.pageX * 2) / 50;
-                const y = (window.innerHeight - e.pageY * 2) / 50;
-                
-                parallaxElements.forEach(el => {
-                    el.style.transform = `translateX(${x}px) translateY(${y}px)`;
-                });
-            });
-            
-            // 3D card effect
-            const cards = document.querySelectorAll('.card-3d');
-            
-            cards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateY = (x - centerX) / 25;
-                    const rotateX = (centerY - y) / 25;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-                });
-            });
-            
-            // Create particles on click
-            document.addEventListener('click', (e) => {
-                createParticles(e.clientX, e.clientY);
-            });
-            
-            function createParticles(x, y) {
-                const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9c74f', '#ffafcc'];
-                
-                for (let i = 0; i < 10; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    particle.style.width = `${Math.random() * 10 + 5}px`;
-                    particle.style.height = particle.style.width;
-                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    particle.style.position = 'fixed';
-                    particle.style.borderRadius = '50%';
-                    particle.style.top = `${y}px`;
-                    particle.style.left = `${x}px`;
-                    particle.style.zIndex = '1000';
-                    particle.style.pointerEvents = 'none';
-                    
-                    // Random direction and rotation
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 100 + 50;
-                    const tx = Math.cos(angle) * speed;
-                    const ty = Math.sin(angle) * speed;
-                    const r = Math.random() * 360;
-                    
-                    particle.style.setProperty('--tx', `${tx}px`);
-                    particle.style.setProperty('--ty', `${ty}px`);
-                    particle.style.setProperty('--r', `${r}deg`);
-                    
-                    document.body.appendChild(particle);
-                    
-                    // Remove particle after animation completes
-                    setTimeout(() => {
-                        particle.remove();
-                    }, 1500);
-                }
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
