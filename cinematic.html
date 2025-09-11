@@ -101,7 +101,7 @@
                             'from, to': { borderColor: 'transparent' },
                             '50%': { borderColor: 'theme(colors.primary.500)' }
                         },
-                       cinematicAppear: {
+                        cinematicAppear: {
                             '0%': { 
                                 opacity: '0',
                                 transform: 'scale(1.2) translateY(20px)',
@@ -209,10 +209,130 @@
             .card-hover {
                 @apply transition-all duration-500 hover:scale-[1.02] hover:shadow-xl;
             }
-            
-            .skeleton {
-                @apply bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-shimmer bg-[length:200%_100%] rounded;
-            }
+           .skeleton-base {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+  }
+  
+  .skeleton-base::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-base::after {
+      animation: none;
+    }
+  }
+  
+  /* Skeleton variants */
+  .skeleton--compact {
+    height: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .skeleton--card {
+    height: 200px;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .skeleton--detail {
+    height: 300px;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .skeleton-circle {
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .skeleton-text {
+    height: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.25rem;
+  }
+  
+  .skeleton-text:last-child {
+    margin-bottom: 0;
+    width: 80%;
+  }
+  
+  .skeleton-title {
+    height: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    width: 70%;
+  }
+  
+  .skeleton-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
+  
+  /* Visually hidden utility for accessibility */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* Enhanced shimmer animation for GPU acceleration */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+/* Skeleton grid layouts */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.skeleton-flex {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
             
             .animate-float-delayed {
                 animation: float 8s ease-in-out infinite;
@@ -223,12 +343,24 @@
                 transform-style: preserve-3d;
             }
             
-            .typing-animation {
-                overflow: hidden;
-                border-right: 3px solid theme(colors.primary.500);
-                white-space: nowrap;
-                animation: typing 3.5s steps(40, end), blinkCaret 0.75s step-end infinite;
-            }
+           .typing-animation {
+    overflow: hidden;
+    border-right: 3px solid theme(colors.primary.500);
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end) forwards, blinkCaret 0.75s step-end infinite;
+    width: 0;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blinkCaret {
+    from, to { border-color: transparent; }
+    50% { border-color: theme(colors.primary.500); }
+}
+
             
             .cinematic-mask {
               mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0));
@@ -256,8 +388,8 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
         
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -347,7 +479,7 @@
             animation: particle 1.5s ease-out forwards;
         }
         
-       /* Cinematic overlay effects */
+        /* Cinematic overlay effects */
         .cinematic-overlay {
             background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
         }
@@ -417,7 +549,95 @@
             transform: scale(1);
         }
 
-             /* Fix for cinematic intro logo visibility */
+        /* Project Card Styles */
+        .project-card {
+            --tilt-max: 10deg;
+            --tilt-scale: 1.02;
+            --motion-dur-md: 240ms;
+            --motion-ease: cubic-bezier(.22,.9,.32,1);
+            perspective: 900px;
+            transform-style: preserve-3d;
+        }
+
+        .project-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform var(--motion-dur-md) var(--motion-ease);
+            transform-style: preserve-3d;
+        }
+
+        .project-card.is-flipped .project-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .project-card-front,
+        .project-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .project-card-back {
+            transform: rotateY(180deg);
+        }
+
+        .project-card-tilt {
+            transform: perspective(900px) rotateX(0) rotateY(0) translateZ(0);
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .project-card-tilt.active {
+            will-change: transform;
+        }
+
+        .project-card-expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--motion-dur-md) var(--motion-ease);
+        }
+
+        .project-card.is-expanded .project-card-expand-content {
+            max-height: 500px;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .project-card-inner,
+            .project-card-tilt,
+            .project-card-expand-content {
+                transition: none !important;
+            }
+            
+            .project-card-tilt {
+                transform: none !important;
+            }
+        }
+
+        /* Mobile expand mode */
+        @media (max-width: 767px) {
+            .project-card[data-card-mode="flip"] .project-card-inner {
+                transform: none !important;
+            }
+            
+            .project-card[data-card-mode="flip"] .project-card-back {
+                position: relative;
+                transform: none;
+                height: 0;
+                overflow: hidden;
+            }
+            
+            .project-card[data-card-mode="flip"].is-expanded .project-card-back {
+                height: auto;
+            }
+        } 
+
+            /* Fix for cinematic intro logo visibility */
         .cinematic-logo {
             filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
         }
@@ -428,8 +648,6 @@
                 filter: brightness(1.5) drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
             }
         }
-
-
     </style>
 </head>
 
@@ -460,7 +678,8 @@
             <p class="mt-6 text-gray-600 dark:text-gray-300 font-Ovo animate-pulse">Crafting digital excellence...</p>
         </div>
     </div>
-    <!-- Cinematic intro overlay - FIXED LOGO VISIBILITY -->
+
+      <!-- Cinematic intro overlay - FIXED LOGO VISIBILITY -->
     <div id="cinematic-intro" class="fixed inset-0 z-40 flex items-center justify-center bg-black transition-opacity duration-1000">
         <div class="cinematic-overlay absolute inset-0 z-10"></div>
         <div class="vignette z-20"></div>
@@ -476,6 +695,7 @@
             <div class="h-full bg-primary-500 rounded-full origin-left" id="cinematic-progress"></div>
         </div>
     </div>
+
     <!-- Navigation -->
     <nav class="w-full fixed top-0 left-0 z-50 glass-effect rounded-b-2xl transition-all duration-500 opacity-0 transform -translate-y-5" id="main-nav">
         <div class="px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between mx-auto w-full">
@@ -561,7 +781,7 @@
     </nav>
 
 
-        <!-- Header Section with Cinematic Intro -->
+          <!-- Header Section with Cinematic Intro -->
     <section id="top" class="min-h-screen flex items-center justify-center px-4 pt-32 pb-10 relative overflow-hidden cinematic-mask">
         <!-- Animated circles -->
         <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-primary-500/30 rounded-full animate-float-delayed" style="--delay: 0;"></div>
@@ -764,103 +984,195 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-                <div class="aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.1">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
-                                    <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">AI SaaS Application</a>
-                                </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10" id="projects-container">
+                <!-- Project Card 1 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-right" data-card-mode="flip" data-testid="project-card-genora-ai" data-delay="0.1">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-4.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">AI SaaS Application</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-genora-ai" aria-label="View details of AI SaaS Application">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Genora AI</h3>
+                            <p class="text-gray-300 mb-6">An AI SaaS platform providing various AI tools for content generation, image processing, and data analysis with a modern, responsive interface.</p>
+                            <div class="flex gap-4">
+                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/genora-ai" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="aspect-square bg-[url('./images/work-1.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-left" data-delay="0.2">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white">
-                                    <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">E-Commerce Website</a>
-                                </h2>
+                <!-- Project Card 2 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-left" data-card-mode="flip" data-testid="project-card-ecommerce" data-delay="0.2">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-1.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white">
+                                        <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">E-Commerce Website</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-ecommerce" aria-label="View details of E-Commerce Website">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">E-Commerce Store</h3>
+                            <p class="text-gray-300 mb-6">A full-featured e-commerce platform with product listings, shopping cart, user authentication, and payment processing integration.</p>
+                            <div class="flex gap-4">
+                                <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/ecommerce-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.3">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-Y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
-                                    <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="hover:text-primary-400 transition-colors">Food Delivery Website</a>
-                                </h2>
+                <!-- Project Card 3 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-right" data-card-mode="flip" data-testid="project-card-food-delivery" data-delay="0.3">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-2.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-Y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="hover:text-primary-400 transition-colors">Food Delivery Website</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-food-delivery" aria-label="View details of Food Delivery Website">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Cravezy Food Delivery</h3>
+                            <p class="text-gray-300 mb-6">A food delivery service with restaurant listings, menu browsing, order tracking, and real-time delivery updates.</p>
+                            <div class="flex gap-4">
+                                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/food-delivery-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-left" data-delay="0.4">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white">
-                                    <a href="https://lms-project-self.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">LMS Website</a>
-                                </h2>
+                <!-- Project Card 4 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-left" data-card-mode="flip" data-testid="project-card-lms" data-delay="0.4">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-3.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white">
+                                        <a href="https://lms-project-self.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">LMS Website</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-lms" aria-label="View details of LMS Website">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://lms-project-self.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Learning Management System</h3>
+                            <p class="text-gray-300 mb-6">A comprehensive LMS platform with course management, student progress tracking, quizzes, and interactive learning materials.</p>
+                            <div class="flex gap-4">
+                                <a href="https://lms-project-self.vercel.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/lms-platform" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
-                 <div class="aspect-square bg-[url('./images/work-5.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.1">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
-                                    <a href="https://chattrix-app.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">MERN Full-Stack Chat App</a>
-                                </h2>
+                
+                <!-- Project Card 5 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-right" data-card-mode="flip" data-testid="project-card-chat-app" data-delay="0.5">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-5.png')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://chattrix-app.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">MERN Full-Stack Chat App</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-chat-app" aria-label="View details of MERN Full-Stack Chat App">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Chattrix Chat App</h3>
+                            <p class="text-gray-300 mb-6">A real-time chat application built with the MERN stack, featuring user authentication, group chats, and file sharing capabilities.</p>
+                            <div class="flex gap-4">
+                                <a href="https://chattrix-app.vercel.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/chat-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
-                 <div class="aspect-square bg-[url('./images/work-6.jpg')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.1">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                            <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
-                                    <a href="https://booknity.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">Booknity, Book Finder Web App</a>
-                                </h2>
+                
+                <!-- Project Card 6 -->
+                <div class="project-card aspect-square rounded-2xl overflow-hidden reveal-slide-left" data-card-mode="flip" data-testid="project-card-book-finder" data-delay="0.6">
+                    <div class="project-card-inner w-full h-full relative">
+                        <div class="project-card-front absolute inset-0 w-full h-full">
+                            <div class="bg-[url('./images/work-6.jpg')] bg-cover bg-center w-full h-full"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
+                                <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                                    <h2 class="font-semibold font-Ovo text-white"> 
+                                        <a href="https://booknity.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">Booknity, Book Finder Web App</a>
+                                    </h2>
+                                    <button class="project-card-flip-trigger border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500" data-testid="project-card-more-book-finder" aria-label="View details of Booknity, Book Finder Web App">
+                                        <img src="./images/info-icon.png" alt="Details" class="w-5" />
+                                    </button>
+                                </div>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
-                                </a>
+                        </div>
+                        <div class="project-card-back absolute inset-0 glass-effect rounded-2xl p-6 flex flex-col justify-center">
+                            <h3 class="text-2xl font-Ovo font-bold mb-4 text-white">Booknity</h3>
+                            <p class="text-gray-300 mb-6">A book discovery platform that helps users find, review, and organize their reading lists with recommendations based on preferences.</p>
+                            <div class="flex gap-4">
+                                <a href="https://booknity.netlify.app/" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">Live Demo</a>
+                                <a href="https://github.com/aravind7lee/book-finder-app" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">GitHub</a>
                             </div>
+                            <button class="project-card-flip-close absolute top-4 right-4 text-white" aria-label="Close details">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -915,11 +1227,11 @@
         </div>
     </section>
 
-    <!-- Footer Section -->
+   <!-- Footer Section -->
     <footer class="pt-16 pb-8 px-5 lg:px-[8%]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12 reveal-fade">
-                <a href="#" class="inline-block transition-transform duration-500 hover:scale-110">
+                <a href="#" class="inline-block transition-transform duration-500 hover:scale-110 animate-fade-in-up">
                     <img src="./images/logo.png" alt="Logo" class="w-36 mx-auto dark:hidden" />
                     <img src="./images/logo_dark.png" alt="Logo" class="w-36 mx-auto hidden dark:block" />
                 </a>
@@ -927,10 +1239,10 @@
                 <div class="mt-6 flex justify-center items-center space-x-2 group cursor-pointer">
                     <span class="relative inline-block">
                         <img src="./images/mail_icon.png" alt="" class="w-6 dark:hidden transition-opacity duration-500 group-hover:opacity-0" />
-                        <img src="./images/mail_icon_dark.png" alt="" class="w-6 hidden dark:block transition-opacity duration-500 group-hover:opacity-0" />
+                        <img src="./images/mail_icon_dark.png" alt="" class="w-6 hidden dark:block transition-opacity duration-500 group-hover:opacity极速-0" />
                         <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <svg class="w-极速 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16极速1.1 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+                            <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c极速0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-极速2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
                             </svg>
                         </span>
                     </span>
@@ -947,8 +1259,8 @@
                     </p>
 
                     <ul class="flex space-x-6 reveal-slide-left">
-                              <li>
-                    <a href="https://www.instagram.com/aravvvv._.20" target="_blank" rel="noopener noreferrer" 
+                        <li>
+                           <a href="https://www.instagram.com/aravvvv._.20" target="_blank" rel="noopener noreferrer" 
                        class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
                         <span class="sr-only">Instagram</span>
                         <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -979,9 +1291,10 @@
             </div>
         </div>
     </footer>
+
 <!-- Back to top button -->
 <button id="backToTop" class="fixed bottom-8 right-8 p-3 glass-effect rounded-full shadow-lg transition-all duration-500 opacity-0 invisible hover:shadow-neon">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-white" fill="none" viewBox="0 0 极速24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
     </svg>
 </button>

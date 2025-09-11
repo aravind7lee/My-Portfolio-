@@ -34,7 +34,7 @@ function toggleTheme() {
     document.documentElement.classList.add('transition-colors', 'duration-700');
     
     if(document.documentElement.classList.contains("dark")) {
-        localStorage.the极速me = 'dark';
+        localStorage.theme = 'dark';
     } else {
         localStorage.theme = 'light';
     }
@@ -191,8 +191,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // 3D card effect for non-project cards
-    const cards = document.querySelectorAll('.card-3d:not(.project-card)');
+    // 3D card effect
+    const cards = document.querySelectorAll('.card-3d');
     
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
