@@ -2,7 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Portfolio - Aravind</title>
     
     <!-- Tailwind CSS -->
@@ -232,7 +232,7 @@
             
             .cinematic-mask {
               mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0));
-                -webkit-mask-image: linear-gradient(to bottom, rgba极速(0,0,0,1) 50%, rgba(0,0,0,0));
+                -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0));
             }
             
             .scroll-reveal {
@@ -320,10 +320,10 @@
             transform: translateX(-100%);
             background: linear-gradient(
                 90deg,
-                rgba(255, 255, 255, 0) 0,
+                rgba极速(255, 255, 255, 0) 0,
                 rgba(255, 255, 255, 0.2) 20%,
                 rgba(255, 255, 255, 0.5) 60%,
-                rgba(255, 255, 255, 0)
+                rgba(255, 极速255, 255, 0)
             );
             animation: shimmer 2s infinite;
         }
@@ -359,7 +359,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
+            box-shadow: inset 0 0 150px rgba(0, 0, 0, 极速0.9);
             pointer-events: none;
         }
         
@@ -373,7 +373,7 @@
             opacity: 1;
         }
         
-        .reveal-slide-up {
+        .reveal-sl极速ide-up {
             opacity: 0;
             transform: translateY(80px);
             transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
@@ -393,7 +393,7 @@
         .reveal-slide-left.active {
             opacity: 1;
             transform: translateX(0);
-        }
+极速        }
         
         .reveal-slide-right {
             opacity: 0;
@@ -407,7 +407,7 @@
         }
         
         .reveal-scale {
-            opacity: 0;
+            opacity: 极速0;
             transform: scale(0.9);
             transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
@@ -429,24 +429,91 @@
             }
         }
 
+        /* Mobile responsiveness fixes */
+        .mobile-fix {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Fix for background elements extending beyond viewport */
+        .fixed-background-fix {
+            left: 0;
+            right: 0;
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+        }
+        
+        /* Ensure all images don't exceed container width */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Fix for mobile menu */
+        @media (max-width: 768px) {
+            #sidemenu {
+                width: 100% !important;
+                right: -100% !important;
+            }
+            
+            #sidemenu.active {
+                right: 0 !important;
+            }
+            
+            .mobile-padding {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Adjust text sizes for mobile */
+            .mobile-text-lg {
+                font-size: 1.125rem;
+                line-height: 1.75rem;
+            }
+            
+            .mobile-text-xl {
+                font-size: 1.25rem;
+                line-height: 1.75rem;
+            }
+            
+            .mobile-text-2xl {
+                font-size: 1.5rem;
+                line-height: 2rem;
+            }
+            
+            .mobile-text-3xl {
+                font-size: 1.875rem;
+                line-height: 2.25rem;
+            }
+            
+            .mobile-text-4xl {
+                font-size: 2.25rem;
+                line-height: 2.5rem;
+            }
+            
+            /* Adjust grid columns for mobile */
+            .mobile-grid-cols-1 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
 
     </style>
 </head>
 
-<body class="overflow-x-hidden font-Outfit leading-8 dark:bg-darkTheme dark:text-white bg-gray-50 transition-colors duration-700">
+<body class="overflow-x-hidden font-Outfit leading-8 dark:bg-darkTheme dark:text-white bg-gray-50 transition-colors duration-700 mobile-fix">
     <!-- Animated gradient background -->
-    <div class="fixed inset-0 -z-30 opacity-20 gradient-bg"></div>
+    <div class="fixed inset-0 -z-30 opacity-20 gradient-bg fixed-background-fix"></div>
     
     <!-- Animated background elements -->
-    <div class="fixed inset-0 -z-20 overflow-hidden">
+    <div class="fixed inset-0 -z-20 overflow-hidden fixed-background-fix">
         <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/10 rounded-full blur-3xl animate-float" style="--delay: 0;"></div>
-        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-700/10 rounded-full blur-3xl animate-float" style="--delay: 2;"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-700/10 rounded-full blur-3xl animate-float" style极速="--delay: 2;"></div>
         <div class="absolute top-1/4 -left-20 w-60 h-60 bg-primary-400/10 rounded-full blur-3xl animate-float" style="--delay: 4;"></div>
         <div class="absolute bottom-1/4 -right-20 w-60 h-60 bg-primary-600/10 rounded-full blur-3xl animate-float" style="--delay: 6;"></div>
     </div>
     
     <!-- Grid pattern -->
-    <div class="fixed inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    <div class="fixed inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] fixed-background-fix"></div>
     
     <!-- Preloader/Skeleton -->
     <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-darkTheme transition-all duration-1000">
@@ -477,14 +544,14 @@
         </div>
     </div>
     <!-- Navigation -->
-    <nav class="w-full fixed top-0 left-0 z-50 glass-effect rounded-b-2xl transition-all duration-500 opacity-0 transform -translate-y-5" id="main-nav">
-        <div class="px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between mx-auto w-full">
+    <nav class="w-full fixed top-0 left-0 z-50 glass-effect rounded-b-2xl transition-all duration-500 opacity-0 transform -translate-y-5 mobile-fix" id="main-nav">
+        <div class="px-4 sm:px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between mx-auto w-full mobile-padding">
             <a href="#" class="">
                 <img src="./images/logo.png" alt="Logo" class="w-28 cursor-pointer dark:hidden transition-all duration-500 hover:scale-110" />
                 <img src="./images/logo_dark.png" alt="Logo" class="w-28 cursor-pointer hidden dark:block transition-all duration-500 hover:scale-110" />
             </a>
             
-            <ul class="hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 glass-effect font-Ovo">
+            <ul class="hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-8 lg:px-12 py-3 glass-effect font-Ovo">
                 <li class="group relative">
                     <a href="#top" class="relative py-2 transition-all duration-500 hover:text-primary-500">
                         Home
@@ -500,7 +567,7 @@
                 <li class="group relative">
                     <a href="#services" class="relative py-2 transition-all duration-500 hover:text-primary-500">
                         Services
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-500 group-hover:w-full"></span>
+                        <span class="absolute bottom极速-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration极速-500 group-hover:w-full"></span>
                     </a>
                 </li>
                 <li class="group relative">
@@ -522,7 +589,7 @@
                     <img src="./images/moon_icon.png" alt="" class="w-6 dark:hidden transition-transform duration-700 group-hover:rotate-180" />
                     <img src="./images/sun_icon.png" alt="" class="w-6 hidden dark:block transition-transform duration-700 group-hover:rotate-180" />
                 </button>
-                <a href="#contact" class="hidden lg:flex items-center gap-3 px-10 py-2.5 glass-effect rounded-full ml-4 font-Ovo hover:shadow-neon transition-all duration-500 group">
+                <a href="#contact" class="hidden lg:flex items-center gap-3 px-8 lg:px-10 py-2.5 glass-effect rounded-full ml-4 font-Ovo hover:shadow-neon transition-all duration-500 group">
                     Contact 
                     <img src="./images/arrow-icon.png" alt="" class="w-3 dark:hidden transition-transform duration-500 group-hover:translate-x-1" />
                     <img src="./images/arrow-icon-dark.png" alt="" class="w-3 hidden dark:block transition-transform duration-500 group-hover:translate-x-1" />
@@ -555,25 +622,25 @@
                 <a href="#work" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">My Work</a>
             </li>
             <li class="group transition-all duration-500 hover:pl-5">
-                <a href="#contact" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">Contact me</a>
+                <a href="#contact极速" onclick="closeMenu()" class="text-xl hover:text-primary-500 transition-colors">Contact me</a>
             </li>
         </ul>
     </nav>
 
 
         <!-- Header Section with Cinematic Intro -->
-    <section id="top" class="min-h-screen flex items-center justify-center px-4 pt-32 pb-10 relative overflow-hidden cinematic-mask">
+    <section id="top" class="min-h-screen flex items-center justify-center px-4 pt-32 pb-10 relative overflow-hidden cinematic-mask mobile-fix">
         <!-- Animated circles -->
         <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-primary-500/30 rounded-full animate-float-delayed" style="--delay: 0;"></div>
         <div class="absolute top-1/3 right-1/4 w-6 h-6 bg-primary-600/20 rounded-full animate-float-delayed" style="--delay: 1;"></div>
         <div class="absolute bottom-1/4 left-1/3 w-8 h-8 bg-primary-400/20 rounded-full animate-float-delayed" style="--delay: 2;"></div>
         <div class="absolute bottom-1/3 right-1/3 w-5 h-5 bg-primary-500/30 rounded-full animate-float-delayed" style="--delay: 3;"></div>
         
-        <div class="w-full max-w-4xl text-center mx-auto flex flex-col items-center justify-center gap-6">
+        <div class="w-full max-w-4xl text-center mx-auto flex flex-col items-center justify-center gap-6 mobile-padding">
           <div class="relative mb-6 md:mb-8 opacity-0 transform scale-90" id="hero-profile">
     <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 rounded-full blur-xl opacity-30 animate-glow"></div>
     <div class="relative flex justify-center items-center">
-        <img src="./images/Profile1.jpg" alt="Profile" class="rounded-full w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 object-cover border-4 border-white/20 shadow-glass z-10 transition-all duration-700 hover:scale-105" />
+        <img src="./images/Profile1.jpg" alt="Profile" class="rounded-full w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 object-cover border-4 border-white/20 shadow-glass z-10 transition-all duration-700 hover:scale-105" />
     </div>
 </div>
             
@@ -581,23 +648,23 @@
                 Hi I'm Aravind <img src="./images/hand-icon.png" alt="" class="w-6 animate-wave" />
             </h3>
             
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-Ovo font-bold mb-4 opacity-0 transform translate-y-5" id="hero-title">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-Ovo font-bold mb-4 opacity-0 transform translate-y-5" id="hero-title">
                 <span class="text-gradient">Full-stack</span> Web Developer
             </h1>
             
-            <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300 leading-relaxed opacity-0 transform translate-y-5" id="hero-description">
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed opacity-0 transform translate-y-5" id="hero-description">
                 Crafting modern digital experiences with React, Node.js, and TailwindCSS. 
                 Specializing in responsive web applications that blend front-end elegance 
                 with back-end robustness, transforming ideas into high-performance solutions.
             </p>
             
             <div class="flex flex-col sm:flex-row items-center gap-4 mt-8 opacity-0 scale-90" id="hero-buttons">
-                <a href="#contact" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-primary-400 text-white flex items-center gap-2 shadow-lg hover:shadow-neon transition-all duration-500 hover:gap-3 group">
+                <a href="#contact" class="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-primary-400 text-white flex items-center gap-2 shadow-lg hover:shadow-neon transition-all duration-500 hover:gap-3 group">
                     contact me
                     <img src="./images/right-arrow-white.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-x-1" />
                 </a>
 
-                <a href="./Aravind-Updated-Resume.pdf" download class="px-8 py-3.5 rounded-full glass-effect flex items-center gap-2 hover:shadow-neon transition-all duration-500 group">
+                <a href="./Aravind-Updated-Resume.pdf" download class="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full glass-effect flex items-center gap-2 hover:shadow-neon transition-all duration-500 group">
                     my resume <img src="./images/download-icon.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-y-1" />
                 </a>
             </div>
@@ -605,26 +672,26 @@
     </section>
 
     <!-- About Me Section -->
-    <section id="about" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
+    <section id="about" class="w-full px-4 sm:px-5 lg:px-[8%] py-16 sm:py-20 scroll-mt-20 relative mobile-fix">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 reveal-slide-up">
+            <div class="text-center mb-12 sm:mb-16 reveal-slide-up">
                 <h4 class="mb-2 text-lg font-Ovo text-primary-600">Introduction</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">About me</h2>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-Ovo font-bold">About me</h2>
             </div>
 
-            <div class="flex w-full flex-col lg:flex-row items-center gap-16 my-16">
+            <div class="flex w-full flex-col lg:flex-row items-center gap-10 sm:gap-16 my-10 sm:my-16">
                 <div class="max-w-max mx-auto relative reveal-scale" data-delay="0.1">
                     <div class="absolute inset-0 bg-primary-500/20 rounded-3xl blur-xl -z-10"></div>
-                    <img src="./images/user-image.png" alt="" class="w-64 sm:w-80 rounded-3xl max-w-none shadow-glass transition-all duration-700 hover:rotate-3" />
+                    <img src="./images/user-image.png" alt="" class="w-56 sm:w-64 md:w-80 rounded-3xl max-w-none shadow-glass transition-all duration-700 hover:rotate-3" />
 
-                    <div class="glass-effect w-1/2 aspect-square absolute right-0 bottom-0 rounded-full translate-x-1/4 translate-y-1/3 shadow-lg flex items-center justify-center">
+                    <div class="glass-effect w-1/2 aspect-square absolute right-0 bottom-0 rounded-full translate-x-1/4 translate-y-1/3 shadow-lg flex items-center justify-center hidden sm:flex">
                         <img src="./images/circular-text.png" alt="" class="w-full animate-spin_slow" />
                         <img src="./images/dev-icon.png" alt="" class="w-1/4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                     </div>
                 </div>
                 
                 <div class="flex-1">
-                    <p class="mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-300 leading-relaxed reveal-fade" data-delay="0.2">
+                    <p class="mb-8 sm:mb-10 max-w-2xl text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed reveal-fade" data-delay="0.2">
                         I'm passionate about Fullstack Web Development with expertise in
                         building responsive and user-friendly web applications using the
                         MERN stack. With hands-on experience from real-world projects and
@@ -632,24 +699,24 @@
                         JavaScript.
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mb-12">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-2xl mb-8 sm:mb-12">
                         <div class="glass-card card-3d reveal-slide-up" data-delay="0.3">
-                            <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
-                                <img src="./images/code-icon.png" alt="" class="w-7 dark:hidden" />
-                                <img src="./images/code-icon-dark.png" alt="" class="w-7 hidden dark:block" />
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
+                                <img src="./images/code-icon.png" alt="" class="w-5 sm:w-7 dark:hidden" />
+                                <img src="./images/code-icon-dark.png" alt="" class="w-5 sm:w-7 hidden dark:block" />
                             </div>
-                            <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Skills</h3>
+                            <h3 class="my-3 sm:my-4 font-semibold text-gray-700 dark:text-white mobile-text-lg">Skills</h3>
                             <p class="text-gray-600 text-sm dark:text-white/80">
                                 HTML, CSS, JavaScript, React Js, TailwindCSS, Python, Node Js, Mongodb , Express Js, Stripe, Clerk
                             </p>
                         </div>
                         
                         <div class="glass-card card-3d reveal-slide-up" data-delay="0.4">
-                            <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
-                                <img src="./images/edu-icon.png" alt="" class="w-7 dark:hidden" />
-                                <img src="./images/edu-icon-dark.png" alt="" class="w-7 hidden dark:block" />
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:极速bg-primary-500/20 transition-colors duration-500">
+                                <img src="./images/edu-icon.png" alt="" class="w-5 sm:w-7 dark:hidden" />
+                                <img src="./images/edu-icon-dark.png" alt="" class="w-5 sm:w-7 hidden dark:block" />
                             </div>
-                            <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Education</h3>
+                            <h3 class="my-3 sm:my-4 font-semibold text-gray-700 dark:text-white mobile-text-lg">Education</h3>
                             <p class="text-gray-600 text-sm dark:text-white/80">
                                 Master of Computer Applications(2023-2025) <br />
                                 Bachelor of Computer Applications(2020-2023)
@@ -657,31 +724,31 @@
                         </div>
                         
                         <div class="glass-card card-3d reveal-slide-up" data-delay="0.5">
-                            <div class="w-12 h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
-                                <img src="./images/project-icon.png" alt="" class="w-7 dark:hidden" />
-                                <img src="./images/project-icon-dark.png" alt="" class="w-7 hidden dark:block" />
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500">
+                                <img src="./images/project-icon.png" alt="" class="w-5 sm:w-7 dark:hidden" />
+                                <img src="./images/project-icon-dark.png" alt="" class="w-5 sm:w-7 hidden dark:block" />
                             </div>
-                            <h3 class="my-4 font-semibold text-gray-700 dark:text-white">Projects</h3>
+                            <h3 class="my-3 sm:my-4 font-semibold text-gray-700 dark:text-white mobile-text-lg">Projects</h3>
                             <p class="text-gray-600 text-sm dark:text-white/80">Built more than 5+ projects</p>
                         </div>
                     </div>
                     
-                    <h4 class="my-6 text-gray-700 dark:text-white/80 font-Ovo text-lg reveal-fade" data-delay="0.6">Tools I use</h4>
+                    <h4 class="my-4 sm:my-6 text-gray-700 dark:text-white/80 font-Ovo text-lg reveal-fade" data-delay="0.6">Tools I use</h4>
 
-                    <ul class="flex items-center gap-4 flex-wrap reveal-fade" data-delay="0.7">
-                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                    <ul class="flex items-center gap-3 sm:gap-4 flex-wrap reveal-fade" data-delay="0.7">
+                        <li class="glass-effect w-10 h-10 sm:w-12 sm:h-12 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
                             <img src="./images/vscode.png" alt="VSCode" class="w-5 sm:w-7" />
                         </li>
-                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                        <li class="glass-effect w-10 h-10 sm:w-12 sm:h-12 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
                             <img src="./images/firebase.png" alt="Firebase" class="w-5 sm:w-7" />
                         </li>
-                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                        <li class="glass-effect w-10 h-10 sm:w-12 sm:h-12 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
                             <img src="./images/mongodb.png" alt="MongoDB" class="w-5 sm:w-7" />
                         </li>
-                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                        <li class="glass-effect w-10 h-10 sm:w-12 sm:h-12 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
                             <img src="./images/git.png" alt="Git" class="w-5 sm:w-7" />
                         </li>
-                        <li class="glass-effect w-12 sm:w-14 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
+                        <li class="glass-effect w-10 h-10 sm:w-12 sm:h-12 aspect-square rounded-xl flex items-center justify-center cursor-pointer card-hover">
                             <img src="./images/Tailwind CSS.png" alt="Tailwind CSS" class="w-5 sm:w-7" />
                         </li>
                     </ul>
@@ -691,14 +758,14 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 bg-white/30 dark:bg-darkTheme/30 backdrop-blur-sm relative">
+    <section id="services" class="w-full px-4 sm:px-5 lg:px-[8%] py-16 sm:py-20 scroll-mt-20 bg-white/30 dark:bg-darkTheme/30 backdrop-blur-sm relative mobile-fix">
         <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-500/5 to-primary-700/5"></div>
         
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 reveal-slide-down">
+            <div class="text-center mb-12 sm:mb-16 reveal-slide-down">
                 <h4 class="mb-2 text-lg font-Ovo text-primary-600">What I offer</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">My services</h2>
-                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-Ovo font-bold">My services</h2>
+                <p class="max-w-2xl mx-auto mt-4 sm:mt-5 text-gray-600 dark:text-gray-300 text-base sm:text-lg">
                     I'm passionate about Fullstack Web Development with expertise in building
                     responsive and user-friendly web applications using the MERN stack. With
                     hands-on experience from real-world projects and internships, I
@@ -706,43 +773,43 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 my-8 sm:my-10">
                 <div class="glass-card card-3d reveal-slide-right" data-delay="0.1">
-                    <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
-                        <img src="./images/web-icon.png" alt="Web Design" class="w-8" />
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-4 sm:mb-6">
+                        <img src="./images/web-icon.png" alt="Web Design" class="w-6 sm:w-8" />
                     </div>
-                    <h3 class="text-xl my-4 text-gray-700 dark:text-white font-Ovo">Web Design</h3>
-                    <p class="text-gray-600 leading-6 dark:text-white/80">
+                    <h3 class="text-xl my-3 sm:my-4 text-gray-700 dark:text-white font-Ovo">Web Design</h3>
+                    <p class="text-gray-600 leading-6 dark:text-white/80 text-sm sm:text-base">
                         Web development is the process of creating websites and web
                         applications.
                     </p>
-                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-6 group-hover:gap-3 transition-all duration-500">
+                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-4 sm:mt-6 group-hover:gap-3 transition-all duration-500">
                         Read more <img src="./images/right-arrow.png" alt="" class="w-4 group-hover:translate-x-1 transition-transform duration-500" />
                     </a>
                 </div>
                 
                 <div class="glass-card card-3d reveal-slide-up" data-delay="0.2">
-                    <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
-                        <img src="./images/ui-icon.png" alt="UI/UX Design" class="w-8" />
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-4 sm:mb-6">
+                        <img src="./images/ui-icon.png" alt="UI/UX Design" class="w-6 sm:w-8" />
                     </div>
-                    <h3 class="text-xl my-4 text-gray-700 dark:text-white font-Ovo">UI/UX design</h3>
-                    <p class="text-gray-600 leading-6 dark:text-white/80">
+                    <h3 class="text-xl my-3 sm:my-4 text-gray-700 dark:text-white font-Ovo">UI/UX design</h3>
+                    <p class="text-gray-600 leading-6 dark:text-white/80 text-sm sm:text-base">
                         Designing intuitive digital experiences by prioritizing user needs and easy to use
                     </p>
-                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-6 group-hover:gap-3 transition-all duration-500">
+                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-4 sm:mt-6 group-hover:gap-3 transition-all duration-500">
                         Read more <img src="./images/right-arrow.png" alt="" class="w-4 group-hover:translate-x-1 transition-transform duration-500" />
                     </a>
                 </div>
                 
                 <div class="glass-card card-3d reveal-slide-left" data-delay="0.3">
-                    <div class="w-14 h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-500 mb-6">
-                        <img src="./images/graphics-icon.png" alt="Graphics Design" class="w-8" />
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-primary-500/10 flex items-center justify-center group极速-hover:bg-primary-500/20 transition-colors duration-500 mb-4 sm:mb-6">
+                        <img src="./images/graphics-icon.png" alt="Graphics Design" class="w-6 sm:w-8" />
                     </div>
-                    <h3 class="text-xl my-4 text-gray-700 dark:text-white font-Ovo">Graphics Design</h3>
-                    <p class="text-gray-600 leading-6 dark:text-white/80">
+                    <h3 class="text-xl my-3 sm:my-4 text-gray-700 dark:text-white font-Ovo">Graphics Design</极速h3>
+                    <p class="text-gray-600 leading-6 dark:text-white/80 text-sm sm:text-base">
                         Creating visual content like logos, banners, and illustrations to communicate ideas. 
                     </p>
-                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-6 group-hover:gap-3 transition-all duration-500">
+                    <a href="#" class="flex items-center gap-2 text-primary-600 mt-4 sm:mt-6 group-hover:gap-3 transition-all duration-500">
                         Read more <img src="./images/right-arrow.png" alt="" class="w-4 group-hover:translate-x-1 transition-transform duration-500" />
                     </a>
                 </div>
@@ -751,12 +818,12 @@
     </section>
 
     <!-- My Work Section -->
-    <section id="work" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
+    <section id="work" class="w-full px-4 sm:px-5 lg:px-[8%] py-16 sm:py-20 scroll-mt-20 relative mobile-fix">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 reveal-scale">
+            <div class="text-center mb-12 sm:mb-16 reveal-scale">
                 <h4 class="mb-2 text-lg font-Ovo text-primary-600">My Portfolio</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">My latest work</h2>
-                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-Ovo font-bold">My latest work</h2>
+                <p class="max-w-2xl mx-auto mt-4 sm:mt-5 text-gray-600 dark:text-gray-300 text-base sm:text-lg">
                     I'm passionate about Fullstack Web Development with expertise in building
                     responsive and user-friendly web applications using the MERN stack. With
                     hands-on experience from real-world projects and internships, I
@@ -764,18 +831,18 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 my-8 sm:my-10">
                 <div class="aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.1">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 sm:p-6">
+                        <div class="glass-effect w-full rounded-xl p-4 sm:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
                             <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
+                                <h2 class="font-semibold font-Ovo text-white text-sm sm:text-base"> 
                                     <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">AI SaaS Application</a>
                                 </h2>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                            <div class="border rounded-full border-white w-7 h-7 sm:w-9 sm:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
                                 <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-3 sm:w-5" />
                                 </a>
                             </div>
                         </div>
@@ -783,16 +850,16 @@
                 </div>
                 
                 <div class="aspect-square bg-[url('./images/work-1.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-left" data-delay="0.2">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                    <div class="absolute inset极速-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 sm:p-6">
+                        <div class="glass-effect w-full rounded-xl p-4 sm:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
                             <div>
-                                <h2 class="font-semibold font-Ovo text-white">
+                                <h2 class="font-semibold font-Ovo text-white text-sm sm:text-base">
                                     <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">E-Commerce Website</a>
                                 </h2>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                            <div class="border rounded-full border-white w-7 h-7 sm:w-9 sm:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
                                 <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-3 sm:w-5" />
                                 </a>
                             </div>
                         </div>
@@ -800,16 +867,16 @@
                 </div>
                 
                 <div class="aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.3">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-Y-0 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 sm:p-6">
+                        <div class="glass-effect w-full rounded-xl p-4 sm:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-Y-0 transition-transform duration-700">
                             <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
+                                <h2 class="font-semibold font-Ovo text-white text-sm sm:text-base"> 
                                     <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" class="hover:text-primary-400 transition-colors">Food Delivery Website</a>
                                 </h2>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                            <div class="border rounded-full border-white w-7 h-7 sm:w-9 sm:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                                <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" rel极速="noopener noreferrer">
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-3 sm:w-5" />
                                 </a>
                             </div>
                         </div>
@@ -817,48 +884,48 @@
                 </div>
                 
                 <div class="aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-left" data-delay="0.4">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 sm:p-6">
+                        <div class="glass-effect w-full rounded-xl p-4 sm:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
                             <div>
-                                <h2 class="font-semibold font-Ovo text-white">
+                                <h2 class="font-semibold font-Ovo text-white text-sm sm:text-base">
                                     <a href="https://lms-project-self.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">LMS Website</a>
                                 </h2>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                            <div class="border rounded-full border-white w-7 h-7 sm:w-9 sm:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group极速-hover:bg-primary-500 transition-all duration-500">
                                 <a href="https://lms-project-self.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-3 sm:w-5" />
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
                  <div class="aspect-square bg-[url('./images/work-5.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.1">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 sm:p-6">
+                        <div class="glass-effect w-full rounded-xl p-4 sm:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
                             <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
+                                <h2 class="font-semibold font-Ovo text-white text-sm sm:text-base"> 
                                     <a href="https://chattrix-app.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">MERN Full-Stack Chat App</a>
-                                </h2>
+                                </h极速2>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                            <div class="border rounded-full border-white w-7 h-7 sm:w-9 sm:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
                                 <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-3 sm:w-5" />
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
                  <div class="aspect-square bg-[url('./images/work-6.jpg')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.1">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-6">
-                        <div class="glass-effect w-full rounded-xl p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 sm:p-6">
+                        <div class="glass-effect w-full rounded-xl p-4 sm:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
                             <div>
-                                <h2 class="font-semibold font-Ovo text-white"> 
+                                <h2 class="font-semibold font-Ovo text-white text-sm sm:text-base"> 
                                     <a href="https://booknity.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">Booknity, Book Finder Web App</a>
                                 </h2>
                             </div>
-                            <div class="border rounded-full border-white w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
+                            <div class="border rounded-full border-white w-7 h-7 sm:w-9 sm:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
                                 <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-5" />
+                                    <img src="./images/send-icon.png" alt="Send Icon" class="w-3 sm:w-5" />
                                 </a>
                             </div>
                         </div>
@@ -866,8 +933,8 @@
                 </div>
             </div>
             
-            <div class="text-center mt-16 reveal-fade">
-                <a href="#" class="inline-flex items-center justify-center gap-2 text-gray-700 glass-effect rounded-full py-3 px-10 hover:shadow-neon transition-all duration-500 group dark:text-white">
+            <div class="text-center mt-12 sm:mt-16 reveal-fade">
+                <a href="#" class="inline-flex items-center justify-center gap-2 text-gray-700 glass-effect rounded-full py-3 px-8 sm:px-10 hover:shadow-neon transition-all duration-500 group dark:text-white">
                     Show more
                     <img src="./images/right-arrow-bold.png" alt="" class="w-4 dark:hidden transition-transform duration-500 group-hover:translate-x-1" />
                     <img src="./images/right-arrow-bold-dark.png" alt="" class="w-4 hidden dark:block transition-transform duration-500 group-hover:translate-x-1" />
@@ -877,36 +944,36 @@
     </section>
 
     <!-- Contact me Section -->
-    <section id="contact" class="w-full px-5 lg:px-[8%] py-20 scroll-mt-20 relative">
+    <section id="contact" class="w-full px-4 sm:px-5 lg:px-[8%] py-16 sm:py-20 scroll-mt-20 relative mobile-fix">
         <div class="absolute inset-0 -z-10 bg-gradient-to-br from-primary-500/10 to-primary-700/10"></div>
         
         <div class="max-w-3xl mx-auto">
-            <div class="text-center mb-16 reveal-slide-down">
+            <div class="text-center mb-12 sm:mb-16 reveal-slide-down">
                 <h4 class="mb-2 text-lg font-Ovo text-primary-600">Connect with me</h4>
-                <h2 class="text-4xl md:text-5xl font-Ovo font-bold">Get in touch</h2>
-                <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-Ovo font-bold">Get in touch</h2>
+                <p class="max-w-2xl mx-auto mt-4 sm:mt-5 text-gray-600 dark:text-gray-300 text-base sm:text-lg">
                     I'd love to hear from you! If you have any questions, comments or feedback, please use the form below to get in touch.
                 </p>
             </div>
 
-            <form method="POST" action="https://api.web3forms.com/submit" class="glass-effect rounded-2xl p-8 reveal-scale">
+            <form method="POST" action="https://api.web3forms.com/submit" class="glass-effect rounded-2xl p-6 sm:p-8 reveal-scale">
                 <input type="hidden" name="access_key" value="5d71368d-2672-4f5c-91e1-dbb7cc66c8b3">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                     <div class="reveal-slide-right" data-delay="0.1">
-                        <input type="text" placeholder="Enter your name" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="name">
+                        <input type="text" placeholder="Enter your name" class="w-full p-3 sm:p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="name">
                     </div>
                     <div class="reveal-slide-left" data-delay="0.1">
-                        <input type="email" placeholder="Enter your email" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="email">
+                        <input type="email" placeholder="Enter your email" class="w-full p-3 sm:p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="email">
                     </div>
                 </div>
                 
-                <div class="mb-6 reveal-fade" data-delay="0.2">
-                    <textarea rows="6" placeholder="Enter your message" class="w-full p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="message"></textarea>
+                <div class="mb-4 sm:mb-6 reveal-fade" data-delay="0.2">
+                    <textarea rows="6" placeholder="Enter your message" class="w-full p-3 sm:p-4 outline-none glass-effect rounded-xl focus:ring-2 focus:ring-primary-500 transition-all duration-500" required name="message"></textarea>
                 </div>
                 
                 <div class="reveal-fade" data-delay="0.3">
-                    <button class="py-3.5 px-10 w-full md:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-primary-600 to-primary-400 text-white rounded-full mx-auto hover:shadow-neon transition-all duration-500 group">
+                    <button class="py-3 px-8 sm:px-10 w-full md:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-primary-600 to-primary-400 text-white rounded-full mx-auto hover:shadow-neon transition-all duration-500 group">
                         Submit now
                         <img src="./images/right-arrow-white.png" alt="" class="w-4 transition-transform duration-500 group-hover:translate-x-1" />
                     </button>
@@ -916,61 +983,61 @@
     </section>
 
     <!-- Footer Section -->
-    <footer class="pt-16 pb-8 px-5 lg:px-[8%]">
+    <footer class="pt-12 sm:pt-16 pb-8 px-4 sm:px-5 lg:px-[8%] mobile-fix">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-12 reveal-fade">
+            <div class="text-center mb-8 sm:mb-12 reveal-fade">
                 <a href="#" class="inline-block transition-transform duration-500 hover:scale-110">
-                    <img src="./images/logo.png" alt="Logo" class="w-36 mx-auto dark:hidden" />
-                    <img src="./images/logo_dark.png" alt="Logo" class="w-36 mx-auto hidden dark:block" />
+                    <img src="./images/logo.png" alt="Logo" class="w-32 sm:w-36 mx-auto dark:hidden" />
+                    <img src="./images/logo_dark.png" alt="Logo" class="w-32 sm:w-36 mx-auto hidden dark:block" />
                 </a>
 
-                <div class="mt-6 flex justify-center items-center space-x-2 group cursor-pointer">
+                <div class="mt-4 sm:mt-6 flex justify-center items-center space-x-2 group cursor-pointer">
                     <span class="relative inline-block">
-                        <img src="./images/mail_icon.png" alt="" class="w-6 dark:hidden transition-opacity duration-500 group-hover:opacity-0" />
-                        <img src="./images/mail_icon_dark.png" alt="" class="w-6 hidden dark:block transition-opacity duration-500 group-hover:opacity-0" />
+                        <img src="./images/mail_icon.png" alt="" class="w-5 sm:w-6 dark:hidden transition-opacity duration-500 group-hover:opacity-0" />
+                        <img src="./images/mail_icon_dark.png" alt="" class="w-5 sm:w-6 hidden dark:block transition-opacity duration-500 group-hover:opacity-0" />
                         <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <svg class="w-极速 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16极速1.1 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c极速0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
                             </svg>
                         </span>
                     </span>
-                    <a href="mailto:aravindrajaa03@gmail.com" class="text-gray-600 dark:text-gray-300 font-medium hover:text-primary-600 transition-colors duration-500">
+                    <a href="mailto:aravindrajaa03@gmail.com" class="text-gray-600 dark:text-gray-300 font-medium hover:text-primary-600 transition-colors duration-500 text-sm sm:text-base">
                         aravindrajaa03@gmail.com
                     </a>
                 </div>
             </div>
 
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-6 sm:pt-8">
                 <div class="flex flex-col-reverse sm:flex-row items-center justify-between">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-4 sm:mt-0 reveal-slide-right">
+                    <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mt-4 sm:mt-0 reveal-slide-right">
                         Copyright © 2025 Aravind Raja. All rights reserved.
                     </p>
 
-                    <ul class="flex space-x-6 reveal-slide-left">
+                    <ul class="flex space-x-4 sm:space-x-6 reveal-slide-left">
                               <li>
                     <a href="https://www.instagram.com/aravvvv._.20" target="_blank" rel="noopener noreferrer" 
-                       class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
+                       class="social-link group glass-effect p-2 sm:p-3 rounded-full transition-all duration-500 hover:scale-110 block">
                         <span class="sr-only">Instagram</span>
-                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden极速="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902极速 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.极速06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.极速772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807极速v.468极速c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041极速.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0极速-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
                         </svg>
                     </a>
                 </li>
                 <li>
                     <a href="https://www.linkedin.com/in/aravind042" target="_blank" rel="noopener noreferrer" 
-                       class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
+                       class="social-link group glass-effect p-2 sm:p-3 rounded-full transition-all duration-500 hover:scale-110 block">
                         <span class="sr-only">LinkedIn</span>
-                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.370-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.370-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1极速.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                         </svg>
                     </a>
                 </li>
                 <li>
                     <a href="https://github.com/aravind7lee" target="_blank" rel="noopener noreferrer" 
-                       class="social-link group glass-effect p-3 rounded-full transition-all duration-500 hover:scale-110 block">
+                       class="social-link group glass-effect p-2 sm:p-3 rounded-full transition-all duration-500 hover:scale-110 block">
                         <span class="sr-only">GitHub</span>
-                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-500" fill="currentColor" viewBox="极速0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 极速2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-极速2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747极速 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
                         </svg>
                     </a>
                 </li>
@@ -980,12 +1047,39 @@
         </div>
     </footer>
 <!-- Back to top button -->
-<button id="backToTop" class="fixed bottom-8 right-8 p-3 glass-effect rounded-full shadow-lg transition-all duration-500 opacity-0 invisible hover:shadow-neon">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<button id="backToTop" class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 p-2 sm:p-3 glass-effect rounded-full shadow-lg transition-all duration-500 opacity-0 invisible hover:shadow-neon">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
     </svg>
 </button>
 
     <script src="script.js"></script>
+    <script>
+        // Additional JavaScript for mobile responsiveness
+        function checkMobileView() {
+            // Add viewport fix for mobile devices
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (window.innerWidth < 768) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                document.body.classList.add('mobile-view');
+            } else {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
+                document.body.classList.remove('mobile-view');
+            }
+        }
+        
+        // Run on load and resize
+        window.addEventListener('load', checkMobileView);
+        window.addEventListener('resize', checkMobileView);
+        
+        // Prevent horizontal scroll on mobile
+        document.addEventListener('touchmove', function(e) {
+            if (window.innerWidth < 768) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
+    </script>
 </body>
 </html>
