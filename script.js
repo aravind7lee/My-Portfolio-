@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize social buttons
     initSocialButtons();
     
-    // Back to top button
+  // Back to top button
     const backToTopButton = document.getElementById('backToTop');
     
     window.addEventListener('scroll', () => {
