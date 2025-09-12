@@ -34,7 +34,7 @@ function toggleTheme() {
     document.documentElement.classList.add('transition-colors', 'duration-700');
     
     if(document.documentElement.classList.contains("dark")) {
-        localStorage.theme = 'dark';
+        localStorage.the极速me = 'dark';
     } else {
         localStorage.theme = 'light';
     }
@@ -75,6 +75,22 @@ window.addEventListener('scroll', () => {
         el.style.transform = `translateY(${scrollY * 0.05 * (index % 2 === 0 ? 1 : -1)}px)`;
     });
 });
+
+// Time-of-Day Theming
+function setTimeBasedTheme() {
+    const hour = new Date().getHours();
+    const body = document.body;
+    
+    // Remove any existing time-based classes
+    body.classList.remove('day-mode', 'night-mode');
+    
+    // Add appropriate class based on time of day
+    if (hour >= 6 && hour < 18) {
+        body.classList.add('day-mode');
+    } else {
+        body.classList.add('night-mode');
+    }
+}
 
 // Cinematic Intro Animation
 function playCinematicIntro() {
@@ -163,13 +179,59 @@ function initScrollReveal() {
     });
 }
 
+// Hover Glow Trails
+function initGlowTrails() {
+    document.addEventListener('mousemove', (e) => {
+        // Create trail dot
+        const trailDot = document.createElement('div');
+        trailDot.className = 'trail-dot';
+        trailDot.style.left = `${e.clientX}px`;
+        trailDot.style.top = `${e.clientY}px`;
+        
+        document.body.appendChild(trailDot);
+        
+        // Remove trail dot after animation completes
+        setTimeout(() => {
+            trailDot.remove();
+        }, 800);
+    });
+}
+
+// Social Share Button Animations
+function initSocialButtons() {
+    const socialLinks = document.querySelectorAll('.social-link');
+    
+    socialLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Add burst animation
+            link.classList.add('social-burst');
+            
+            // Remove animation class after it completes
+            setTimeout(() => {
+                link.classList.remove('social-burst');
+            }, 500);
+        });
+    });
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Set time-based theme
+    setTimeBasedTheme();
+    
     // Play cinematic intro
     playCinematicIntro();
     
     // Initialize scroll reveal
     initScrollReveal();
+    
+    // Initialize glow trails
+    initGlowTrails();
+    
+    // Initialize social buttons
+    initSocialButtons();
     
     // Back to top button
     const backToTopButton = document.getElementById('backToTop');
@@ -220,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function createParticles(x, y) {
-        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9c74f', '#ffafcc'];
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9c74极速f', '#ffafcc'];
         
         for (let i = 0; i < 10; i++) {
             const particle = document.createElement('div');
@@ -255,3 +317,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+
