@@ -1470,44 +1470,54 @@
           <span class="text-gradient">Full-stack</span> Web Developer
         </h1>
 
-        <p
-          class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300 leading-relaxed opacity-0 transform translate-y-5"
-          id="hero-description"
+        <div 
+          class="relative z-10 w-full"
         >
-          Crafting modern digital experiences with React, Node.js, and
-          TailwindCSS. Specializing in responsive web applications that blend
-          front-end elegance with back-end robustness, transforming ideas into
-          high-performance solutions.
-        </p>
+          <!-- Add a semi-transparent glass background for clarity -->
+          <div class="absolute inset-0 bg-white/70 dark:bg-darkTheme/70 backdrop-blur-md rounded-2xl pointer-events-none"></div>
+          <div class="relative flex flex-col items-center w-full px-4 py-8">
+            <p
+              class="max-w-2xl mx-auto text-lg text-gray-800 dark:text-gray-100 leading-relaxed font-medium drop-shadow-lg text-center"
+              id="hero-description"
+              style="text-shadow: 0 2px 8px rgba(0,0,0,0.10);"
+            >
+              Crafting modern digital experiences with <span class="font-semibold text-primary-600 dark:text-primary-400">React</span>, <span class="font-semibold text-primary-600 dark:text-primary-400">Node.js</span>, and <span class="font-semibold text-primary-600 dark:text-primary-400">TailwindCSS</span>.<br>
+              Specializing in responsive web applications that blend front-end elegance with back-end robustness, transforming ideas into high-performance solutions.
+            </p>
 
-        <div
-          class="flex flex-col sm:flex-row items-center gap-4 mt-8 opacity-0 scale-90"
-          id="hero-buttons"
-        >
-          <a
-            href="#contact"
-            class="px-6 py-3 sm:px-8 sm:py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-primary-400 text-white flex items-center gap-2 shadow-lg hover:shadow-neon-lg transition-all duration-500 hover:gap-3 group neon-hover"
-          >
-            contact me
-            <img
-              src="./images/right-arrow-white.png"
-              alt=""
-              class="w-4 transition-transform duration-500 group-hover:translate-x-1"
-            />
-          </a>
+            <div
+              class="flex flex-col sm:flex-row items-center gap-4 mt-8"
+              id="hero-buttons"
+            >
+              <a
+                href="#contact"
+                class="px-7 py-3 sm:px-10 sm:py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-primary-400 text-white flex items-center gap-2 shadow-xl hover:shadow-neon-lg transition-all duration-500 hover:gap-3 group neon-hover font-semibold text-base tracking-wide border-2 border-primary-400/60"
+                style="backdrop-filter: blur(2px);"
+              >
+                contact me
+                <img
+                  src="./images/right-arrow-white.png"
+                  alt=""
+                  class="w-5 transition-transform duration-500 group-hover:translate-x-1"
+                />
+              </a>
 
-          <a
-            href="./Aravind-Updated-Resume.pdf"
-            download
-            class="px-6 py-3 sm:px-8 sm:py-3.5 rounded-full glass-effect flex items-center gap-2 hover:shadow-neon transition-all duration-500 group"
-          >
-            my resume
-            <img
-              src="./images/download-icon.png"
-              alt=""
-              class="w-4 transition-transform duration-500 group-h极over:translate-y-1"
-            />
-          </a>
+              <a
+                href="/My-Portfolio-/Aravind R-Updated-Resume.pdf"
+                download
+                class="px-7 py-3 sm:px-10 sm:py-3.5 rounded-full glass-effect flex items-center gap-2 hover:shadow-neon transition-all duration-500 group font-semibold text-base tracking-wide border-2 border-primary-400/40 bg-white/80 dark:bg-darkTheme/80"
+                style="backdrop-filter: blur(2px);"
+              >
+                my resume
+                <img
+                  src="./images/download-icon.png"
+                  alt=""
+                  class="w-5 transition-transform duration-500 group-hover:translate-y-1"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </section>
