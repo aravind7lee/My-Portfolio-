@@ -140,17 +140,28 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-// Parallax effect for background elements
-window.addEventListener("scroll", () => {
-  const scrollY = window.scrollY;
-  document
-    .querySelectorAll(".animate-float, .animate-float-delayed")
-    .forEach((el, index) => {
-      el.style.transform = `translateY(${
-        scrollY * 0.05 * (index % 2 === 0 ? 1 : -1)
-      }px)`;
+// Parallax effect for background elements (optimized with RAF)
+const __floatEls = Array.from(
+  document.querySelectorAll(".animate-float, .animate-float-delayed")
+);
+let __ticking = false;
+
+function __onScroll() {
+  if (!__ticking) {
+    window.requestAnimationFrame(() => {
+      const y = window.scrollY;
+      for (let i = 0; i < __floatEls.length; i++) {
+        const el = __floatEls[i];
+        const dir = i % 2 === 0 ? 1 : -1;
+        el.style.transform = `translate3d(0, ${y * 0.05 * dir}px, 0)`;
+      }
+      __ticking = false;
     });
-});
+    __ticking = true;
+  }
+}
+
+window.addEventListener("scroll", __onScroll, { passive: true });
 
 // Time-of-Day Theming
 function setTimeBasedTheme() {

@@ -268,6 +268,18 @@
           animation: gradient 3s ease infinite;
         }
 
+        /* Performance: GPU/compositing hints */
+        .will-change-transform {
+          will-change: transform;
+        }
+        .gpu {
+          transform: translateZ(0);
+        }
+        .anim-transform {
+          will-change: transform;
+          backface-visibility: hidden;
+        }
+
         .glass-effect {
           @apply bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/10 dark:border-white/5 shadow-glass;
         }
@@ -310,6 +322,15 @@
         .animate-float-delayed {
           animation: float 8s ease-in-out infinite;
           animation-delay: calc(var(--delay) * 1s);
+        }
+
+        /* Apply will-change to common animated elements */
+        .animate-float,
+        .animate-float-delayed,
+        .card-3d,
+        .flip-card-inner,
+        .mobile-menu-container {
+          will-change: transform;
         }
 
         .parallax-element {
@@ -399,6 +420,18 @@
           pointer-events: none;
           z-index: 9999;
           animation: trail 0.8s linear forwards;
+        }
+      }
+
+      /* Prefer-reduced-motion: smooth fallback and accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+        .animate-float,
+        .animate-float-delayed {
+          transform: none !important;
         }
       }
 
@@ -1793,138 +1826,299 @@
             </a>
           </div>
         </div>
-      </div>   
+      </div>
     </section>
 
-   
-<!-- My Work Section -->
-<section id="work" class="w-full px-4 sm:px-5 lg:px-[8%] py-16 md:py-20 scroll-mt-20 relative">
-    <div class="max-w-7xl mx-auto">
+    <!-- My Work Section -->
+    <section
+      id="work"
+      class="w-full px-4 sm:px-5 lg:px-[8%] py-16 md:py-20 scroll-mt-20 relative"
+    >
+      <div class="max-w-7xl mx-auto">
         <div class="text-center mb-12 md:mb-16 reveal-scale">
-            <h4 class="mb-2 text-lg font-Ovo text-primary-600">My Portfolio</h4>
-            <h2 class="text-3xl md:text-4xl lg:text-5xl font-Ovo font-bold">My latest work</h2>
-            <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
-                I'm passionate about Fullstack Web Development with expertise in building
-                responsive and user-friendly web applications using the MERN stack. With
-                hands-on experience from real-world projects and internships, I
-                specialize in React.js, Tailwind CSS, and modern JavaScript.
-            </p>
+          <h4 class="mb-2 text-lg font-Ovo text-primary-600">My Portfolio</h4>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-Ovo font-bold">
+            My latest work
+          </h2>
+          <p class="max-w-2xl mx-auto mt-5 text-gray-600 dark:text-gray-300">
+            I'm passionate about Fullstack Web Development with expertise in
+            building responsive and user-friendly web applications using the
+            MERN stack. With hands-on experience from real-world projects and
+            internships, I specialize in React.js, Tailwind CSS, and modern
+            JavaScript.
+          </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 my-8 md:my-10">
-            <div class="aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.1">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6">
-                    <div class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                        <div>
-                            <h2 class="font-semibold font-Ovo text-white text-sm md:text-base"> 
-                                <a href="https://genora-ai-phi.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">AI SaaS Application</a>
-                            </h2>
-                        </div>
-                        <div class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                            <a href="https://genora-ai-phi.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                <img src="./images/send-icon.png" alt="Send Icon" class="w-3 md:w-4" />
-                            </a>
-                        </div>
-                    </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 my-8 md:my-10"
+        >
+          <div
+            class="aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right"
+            data-delay="0.1"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6"
+            >
+              <div
+                class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700"
+              >
+                <div>
+                  <h2
+                    class="font-semibold font-Ovo text-white text-sm md:text-base"
+                  >
+                    <a
+                      href="https://genora-ai-phi.vercel.app/"
+                      target="_blank"
+                      class="hover:text-primary-400 transition-colors"
+                      >AI SaaS Application</a
+                    >
+                  </h2>
                 </div>
+                <div
+                  class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500"
+                >
+                  <a
+                    href="https://genora-ai-phi.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="./images/send-icon.png"
+                      alt="Send Icon"
+                      class="w-3 md:w-4"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
 
-             <div class="aspect-square bg-[url('./images/work-1.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.2">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6">
-                    <div class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                        <div>
-                            <h2 class="font-semibold font-Ovo text-white text-sm md:text-base"> 
-                                <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">E-Commerce Website</a>
-                            </h2>
-                        </div>
-                        <div class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                            <a href="https://main--shopper-e-commerce.netlify.app/" target="_blank" rel="noopener noreferrer">
-                                <img src="./images/send-icon.png" alt="Send Icon" class="w-3 md:w-4" />
-                            </a>
-                        </div>
-                    </div>
+          <div
+            class="aspect-square bg-[url('./images/work-1.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right"
+            data-delay="0.2"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6"
+            >
+              <div
+                class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700"
+              >
+                <div>
+                  <h2
+                    class="font-semibold font-Ovo text-white text-sm md:text-base"
+                  >
+                    <a
+                      href="https://main--shopper-e-commerce.netlify.app/"
+                      target="_blank"
+                      class="hover:text-primary-400 transition-colors"
+                      >E-Commerce Website</a
+                    >
+                  </h2>
                 </div>
+                <div
+                  class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500"
+                >
+                  <a
+                    href="https://main--shopper-e-commerce.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="./images/send-icon.png"
+                      alt="Send Icon"
+                      class="w-3 md:w-4"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
 
-              <div class="aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.3">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6">
-                    <div class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                        <div>
-                            <h2 class="font-semibold font-Ovo text-white text-sm md:text-base"> 
-                                <a href="https://cravezyy-foodcra-frontend.onrender.com"  target="_blank" class="hover:text-primary-400 transition-colors">Food Delivery Website</a>
-                            </h2>
-                        </div>
-                        <div class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                            <a href="https://cravezyy-foodcra-frontend.onrender.com" target="_blank" rel="noopener noreferrer">
-                                <img src="./images/send-icon.png" alt="Send Icon" class="w-3 md:w-4" />
-                            </a>
-                        </div>
-                    </div>
+          <div
+            class="aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right"
+            data-delay="0.3"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6"
+            >
+              <div
+                class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700"
+              >
+                <div>
+                  <h2
+                    class="font-semibold font-Ovo text-white text-sm md:text-base"
+                  >
+                    <a
+                      href="https://cravezyy-foodcra-frontend.onrender.com"
+                      target="_blank"
+                      class="hover:text-primary-400 transition-colors"
+                      >Food Delivery Website</a
+                    >
+                  </h2>
                 </div>
+                <div
+                  class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500"
+                >
+                  <a
+                    href="https://cravezyy-foodcra-frontend.onrender.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="./images/send-icon.png"
+                      alt="Send Icon"
+                      class="w-3 md:w-4"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
 
-              <div class="aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.4">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6">
-                    <div class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                        <div>
-                            <h2 class="font-semibold font-Ovo text-white text-sm md:text-base"> 
-                                <a href="https://lms-project-self.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">LMS Website</a>
-                            </h2>
-                        </div>
-                        <div class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                            <a href="https://lms-project-self.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                <img src="./images/send-icon.png" alt="Send Icon" class="w-3 md:w-4" />
-                            </a>
-                        </div>
-                    </div>
+          <div
+            class="aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right"
+            data-delay="0.4"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6"
+            >
+              <div
+                class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700"
+              >
+                <div>
+                  <h2
+                    class="font-semibold font-Ovo text-white text-sm md:text-base"
+                  >
+                    <a
+                      href="https://lms-project-self.vercel.app/"
+                      target="_blank"
+                      class="hover:text-primary-400 transition-colors"
+                      >LMS Website</a
+                    >
+                  </h2>
                 </div>
+                <div
+                  class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500"
+                >
+                  <a
+                    href="https://lms-project-self.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="./images/send-icon.png"
+                      alt="Send Icon"
+                      class="w-3 md:w-4"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
 
-              <div class="aspect-square bg-[url('./images/work-5.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.5">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6">
-                    <div class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                        <div>
-                            <h2 class="font-semibold font-Ovo text-white text-sm md:text-base"> 
-                                <a href="https://chattrix-app.vercel.app/" target="_blank" class="hover:text-primary-400 transition-colors">MERN Full-Stack Chat App</a>
-                            </h2>
-                        </div>
-                        <div class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                            <a href="https://chattrix-app.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                <img src="./images/send-icon.png" alt="Send Icon" class="w-3 md:w-4" />
-                            </a>
-                        </div>
-                    </div>
+          <div
+            class="aspect-square bg-[url('./images/work-5.png')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right"
+            data-delay="0.5"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6"
+            >
+              <div
+                class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700"
+              >
+                <div>
+                  <h2
+                    class="font-semibold font-Ovo text-white text-sm md:text-base"
+                  >
+                    <a
+                      href="https://chattrix-app.vercel.app/"
+                      target="_blank"
+                      class="hover:text-primary-400 transition-colors"
+                      >MERN Full-Stack Chat App</a
+                    >
+                  </h2>
                 </div>
+                <div
+                  class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500"
+                >
+                  <a
+                    href="https://chattrix-app.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="./images/send-icon.png"
+                      alt="Send Icon"
+                      class="w-3 md:w-4"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
 
-              <div class="aspect-square bg-[url('./images/work-6.jpg')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right" data-delay="0.6">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6">
-                    <div class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                        <div>
-                            <h2 class="font-semibold font-Ovo text-white text-sm md:text-base"> 
-                                <a href="https://booknity.netlify.app/" target="_blank" class="hover:text-primary-400 transition-colors">Booknity, Book Finder Web App</a>
-                            </h2>
-                        </div>
-                        <div class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500">
-                            <a href="https://booknity.netlify.app/" target="_blank" rel="noopener noreferrer">
-                                <img src="./images/send-icon.png" alt="Send Icon" class="w-3 md:w-4" />
-                            </a>
-                        </div>
-                    </div>
+          <div
+            class="aspect-square bg-[url('./images/work-6.jpg')] bg-no-repeat bg-cover bg-center rounded-2xl relative cursor-pointer group overflow-hidden card-hover reveal-slide-right"
+            data-delay="0.6"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center p-4 md:p-6"
+            >
+              <div
+                class="glass-effect w-full rounded-xl p-4 md:p-5 flex items-center justify-between transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700"
+              >
+                <div>
+                  <h2
+                    class="font-semibold font-Ovo text-white text-sm md:text-base"
+                  >
+                    <a
+                      href="https://booknity.netlify.app/"
+                      target="_blank"
+                      class="hover:text-primary-400 transition-colors"
+                      >Booknity, Book Finder Web App</a
+                    >
+                  </h2>
                 </div>
+                <div
+                  class="border rounded-full border-white w-7 h-7 md:w-9 md:h-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#fff] group-hover:bg-primary-500 transition-all duration-500"
+                >
+                  <a
+                    href="https://booknity.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="./images/send-icon.png"
+                      alt="Send Icon"
+                      class="w-3 md:w-4"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        
+
         <div class="text-center mt-12 md:mt-16 reveal-fade">
-            <a href="#" class="inline-flex items-center justify-center gap-2 text-gray-700 glass-effect rounded-full py-2.5 px-8 md:py-3 md:px-10 hover:shadow-neon transition-all duration-500 group dark:text-white">
-                Show more
-                <img src="./images/right-arrow-bold.png" alt="" class="w-3 md:w-4 dark:hidden transition-transform duration-500 group-hover:translate-x-1" />
-                <img src="./images/right-arrow-bold-dark.png" alt="" class="w-3 md:w-4 hidden dark:block transition-transform duration-500 group-hover:translate-x-1" />
-            </a>
+          <a
+            href="#work"
+            class="inline-flex items-center justify-center gap-2 text-gray-700 glass-effect rounded-full py-2.5 px-8 md:py-3 md:px-10 hover:shadow-neon transition-all duration-500 group dark:text-white"
+          >
+            Show more
+            <img
+              src="./images/right-arrow-bold.png"
+              alt=""
+              class="w-3 md:w-4 dark:hidden transition-transform duration-500 group-hover:translate-x-1"
+            />
+            <img
+              src="./images/right-arrow-bold-dark.png"
+              alt=""
+              class="w-3 md:w-4 hidden dark:block transition-transform duration-500 group-hover:translate-x-1"
+            />
+          </a>
         </div>
-    </div>
-</section>
-
+      </div>
+    </section>
 
     <!-- Contact me Section -->
     <section
