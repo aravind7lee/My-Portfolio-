@@ -1,5 +1,6 @@
 const navBar = document.querySelector("nav");
 const navLinks = document.querySelector("nav ul");
+const backToTopButton = document.getElementById("backToTop");
 let lastFocusedTrigger = null;
 let focusableMenuEls = [];
 let touchStartX = 0;
@@ -50,43 +51,88 @@ function closeMenu() {
   }
 }
 
-window.addEventListener("scroll", () => {
-  if (scrollY > 50) {
-    navBar.classList.add(
-      "bg-white",
-      "bg-opacity-50",
-      "backdrop-blur-lg",
-      "shadow-sm",
-      "dark:bg-darkTheme",
-      "dark:shadow-white/20"
-    );
-    navLinks.classList.remove(
-      "bg-white",
-      "shadow-sm",
-      "bg-opacity-50",
-      "dark:border",
-      "dark:border-white/50",
-      "dark:bg-transparent"
-    );
-  } else {
-    navBar.classList.remove(
-      "bg-white",
-      "bg-opacity-50",
-      "backdrop-blur-lg",
-      "shadow-sm",
-      "dark:bg-darkTheme",
-      "dark:shadow-white/20"
-    );
-    navLinks.classList.add(
-      "bg-white",
-      "shadow-sm",
-      "bg-opacity-50",
-      "dark:border",
-      "dark:border-white/50",
-      "dark:bg-transparent"
-    );
-  }
-});
+// Unified scroll work (90fps target via RAF with minimal DOM writes)
+const __floatEls = Array.from(
+  document.querySelectorAll(".animate-float, .animate-float-delayed")
+);
+let __ticking = false;
+let __navScrolled = null;
+let __showBackToTop = null;
+
+function __onScroll() {
+  if (__ticking) return;
+  __ticking = true;
+  window.requestAnimationFrame(() => {
+    const y = window.scrollY;
+
+    // Parallax transforms (GPU)
+    for (let i = 0; i < __floatEls.length; i++) {
+      const el = __floatEls[i];
+      const dir = i % 2 === 0 ? 1 : -1;
+      el.style.transform = `translate3d(0, ${y * 0.05 * dir}px, 0)`;
+    }
+
+    // Navbar state
+    const scrolled = y > 50;
+    if (scrolled !== __navScrolled) {
+      __navScrolled = scrolled;
+      if (scrolled) {
+        navBar.classList.add(
+          "bg-white",
+          "bg-opacity-50",
+          "backdrop-blur-lg",
+          "shadow-sm",
+          "dark:bg-darkTheme",
+          "dark:shadow-white/20"
+        );
+        navLinks.classList.remove(
+          "bg-white",
+          "shadow-sm",
+          "bg-opacity-50",
+          "dark:border",
+          "dark:border-white/50",
+          "dark:bg-transparent"
+        );
+      } else {
+        navBar.classList.remove(
+          "bg-white",
+          "bg-opacity-50",
+          "backdrop-blur-lg",
+          "shadow-sm",
+          "dark:bg-darkTheme",
+          "dark:shadow-white/20"
+        );
+        navLinks.classList.add(
+          "bg-white",
+          "shadow-sm",
+          "bg-opacity-50",
+          "dark:border",
+          "dark:border-white/50",
+          "dark:bg-transparent"
+        );
+      }
+    }
+
+    // Back to top visibility
+    if (backToTopButton) {
+      const show = y > 300;
+      if (show !== __showBackToTop) {
+        __showBackToTop = show;
+        if (show) {
+          backToTopButton.classList.remove("opacity-0", "invisible");
+          backToTopButton.classList.add("opacity-100", "visible");
+        } else {
+          backToTopButton.classList.remove("opacity-100", "visible");
+          backToTopButton.classList.add("opacity-0", "invisible");
+        }
+      }
+    }
+
+    __ticking = false;
+  });
+}
+
+window.addEventListener("scroll", __onScroll, { passive: true });
 
 // light mode and dark mode toggle
 document.documentElement.classList.toggle(
@@ -139,29 +185,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     }
   });
 });
-
-// Parallax effect for background elements (optimized with RAF)
-const __floatEls = Array.from(
-  document.querySelectorAll(".animate-float, .animate-float-delayed")
-);
-let __ticking = false;
-
-function __onScroll() {
-  if (!__ticking) {
-    window.requestAnimationFrame(() => {
-      const y = window.scrollY;
-      for (let i = 0; i < __floatEls.length; i++) {
-        const el = __floatEls[i];
-        const dir = i % 2 === 0 ? 1 : -1;
-        el.style.transform = `translate3d(0, ${y * 0.05 * dir}px, 0)`;
-      }
-      __ticking = false;
-    });
-    __ticking = true;
-  }
-}
-
-window.addEventListener("scroll", __onScroll, { passive: true });
 
 // Time-of-Day Theming
 function setTimeBasedTheme() {
@@ -375,88 +398,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Back to top button
-  const backToTopButton = document.getElementById("backToTop");
-
-  window.addEventListener("scroll", () => {
-    if (window.pageYOffset > 300) {
-      backToTopButton.classList.remove("opacity-0", "invisible");
-      backToTopButton.classList.add("opacity-100", "visible");
-    } else {
-      backToTopButton.classList.remove("opacity-100", "visible");
-      backToTopButton.classList.add("opacity-0", "invisible");
-    }
-  });
-
-  backToTopButton.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
+  // Back to top button click
+  if (backToTopButton) {
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     });
-  });
-
-  // 3D card effect
-  const cards = document.querySelectorAll(".card-3d");
-
-  cards.forEach((card) => {
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateY = (x - centerX) / 25;
-      const rotateX = (centerY - y) / 25;
-
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "perspective(1000px) rotateX(0) rotateY(0)";
-    });
-  });
-
-  // Create particles on click
-  document.addEventListener("click", (e) => {
-    createParticles(e.clientX, e.clientY);
-  });
-
-  function createParticles(x, y) {
-    const colors = ["#ff6b6b", "#4ecdc4", "#45b7d1", "#f9c74极速f", "#ffafcc"];
-
-    for (let i = 0; i < 10; i++) {
-      const particle = document.createElement("div");
-      particle.className = "particle";
-      particle.style.width = `${Math.random() * 10 + 5}px`;
-      particle.style.height = particle.style.width;
-      particle.style.background =
-        colors[Math.floor(Math.random() * colors.length)];
-      particle.style.position = "fixed";
-      particle.style.borderRadius = "50%";
-      particle.style.top = `${y}px`;
-      particle.style.left = `${x}px`;
-      particle.style.zIndex = "1000";
-      particle.style.pointerEvents = "none";
-
-      // Random direction and rotation
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 100 + 50;
-      const tx = Math.cos(angle) * speed;
-      const ty = Math.sin(angle) * speed;
-      const r = Math.random() * 360;
-
-      particle.style.setProperty("--tx", `${tx}px`);
-      particle.style.setProperty("--ty", `${ty}px`);
-      particle.style.setProperty("--r", `${r}deg`);
-
-      document.body.appendChild(particle);
-
-      // Remove particle after animation completes
-      setTimeout(() => {
-        particle.remove();
-      }, 1500);
-    }
   }
 });
